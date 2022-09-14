@@ -13,3 +13,8 @@ export const selectIsLoggedIn: Selector<State, boolean> = createSelector(
   userState,
   ({ isLoggedIn }) => isLoggedIn
 );
+
+export const selectAuthNumber: Selector<State, string | null> = createSelector(
+  userState,
+  ({ authNumber }) => authNumber
+);

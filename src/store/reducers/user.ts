@@ -9,11 +9,13 @@ export interface User {
 
 interface UserState {
   user: User | null,
+  authNumber: string | null,
   isLoggedIn: boolean
 }
 
 const InitialState: UserState = {
   user: null,
+  authNumber: null,
   isLoggedIn: !!localStorage.getItem('token')
 }
 
@@ -24,6 +26,10 @@ export class UserReducer extends ImmerReducer<UserState> {
 
   public setIsLoggedIn(value: boolean) {
     this.draftState.isLoggedIn = value;
+  }
+
+  public setAuthNumber(value: string | null) {
+    this.draftState.authNumber = value;
   }
 }
 
