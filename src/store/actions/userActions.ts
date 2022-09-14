@@ -7,17 +7,25 @@ import { errorActions } from '@/store/actions/errorActions';
 
 export const userActions = createActionCreators(UserReducer);
 
-export type UserActions = ReturnType<typeof userActions.setIsLoggedIn>;
+export type UserActions = ReturnType<typeof userActions.setUser>
+  | ReturnType<typeof userActions.setIsLoggedIn>;
 
-export const someActionExample  = (): AsyncAction => async (
+export const getMeAction  = (): AsyncAction => async (
   dispatch,
   _,
-  { mainApi }
+  { mainApiProtected }
 ) => {
   try {
+    if (localStorage.getItem('token')) {
+      const user = await mainApiProtected.getClient();
 
+      dispatch(userActions.setUser(user));
+      dispatch(userActions.setIsLoggedIn(true));
+    }
   } catch (error: any) {
-    const message = error.code === 400 ? 'Invalid phone number' : error.message;
-    dispatch(errorActions.setErrorMessage(message));
+    console.log(error);
+    localStorage.removeItem('token');
+    dispatch(userActions.setIsLoggedIn(false));
+    dispatch(userActions.setUser(null));
   }
 };

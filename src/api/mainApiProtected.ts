@@ -1,4 +1,5 @@
 import { HttpClientProtected } from '@/api/httpClientProtected';
+import { User } from '@/store/reducers/user';
 
 export class MainApiProtected extends HttpClientProtected {
   private static instanceCached: MainApiProtected;
@@ -12,4 +13,6 @@ export class MainApiProtected extends HttpClientProtected {
 
     return MainApiProtected.instanceCached;
   }
+
+  public getClient = () => this.instance.get<User>('/client');
 }
