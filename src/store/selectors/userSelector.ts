@@ -1,6 +1,6 @@
 import { State } from '@/store';
 import { createSelector, Selector } from 'reselect';
-import { User } from '@/store/reducers/user';
+import { AuthStep, PhoneNumber, User } from '@/store/reducers/user';
 
 const userState = (state: State) => state.userReducer;
 
@@ -14,7 +14,12 @@ export const selectIsLoggedIn: Selector<State, boolean> = createSelector(
   ({ isLoggedIn }) => isLoggedIn
 );
 
-export const selectAuthNumber: Selector<State, string | null> = createSelector(
+export const selectAuthNumber: Selector<State, PhoneNumber | null> = createSelector(
   userState,
   ({ authNumber }) => authNumber
+);
+
+export const selectAuthStep: Selector<State, AuthStep> = createSelector(
+  userState,
+  ({ authStep }) => authStep
 );
