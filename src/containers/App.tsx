@@ -69,18 +69,18 @@ const App: React.FC = () => {
   const errorMessage = useSelector(selectErrorMessage);
 
   return (
-    <GlobalContainer>
-      <GlobalStyle />
+    <>
       <Header />
-      <RoutesContainer>
+      <GlobalContainer>
+        <GlobalStyle />
         <Routes>
           <Route path="/" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
           <Route path="/auth/*" element={<Auth />} />
           <Route path="/selfie" element={<ProtectedRouter><Selfie /></ProtectedRouter>} />
         </Routes>
-      </RoutesContainer>
-      {errorMessage ? <ErrorModalWindow error={errorMessage} /> : ''}
-    </GlobalContainer>
+        {errorMessage ? <ErrorModalWindow error={errorMessage} /> : ''}
+      </GlobalContainer>
+    </>
   );
 };
 
@@ -89,13 +89,9 @@ const GlobalContainer = styled.section`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 1440px;
-  height: 100vh;
-`;
-
-const RoutesContainer = styled.div`
   padding: 0 15px;
-  min-height: calc(100% - 60px);
+  max-width: 1440px;
+  height: calc(100vh - 60px);
 `;
 
 export default App;

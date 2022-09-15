@@ -34,24 +34,33 @@ const Header = () => {
   };
 
   return (
-    <Container>
-      <Back>
-        {getBackArrow()}
-      </Back>
-      <LogoIcon>
-        {window && window.innerWidth < 640 ? <LogoMobile /> : <Logo />}
-      </LogoIcon>
-    </Container>
+    <StyledHeader>
+      <Container>
+        <Back>
+          {getBackArrow()}
+        </Back>
+        <LogoIcon>
+          {window && window.innerWidth < 640 ? <LogoMobile /> : <Logo />}
+        </LogoIcon>
+      </Container>
+    </StyledHeader>
   );
 };
 
-const Container = styled.header`
+const StyledHeader = styled.header`
+  display: flex;
+  align-items: center;
+  height: 60px;
+  border-bottom: 1px solid #F1F0EC;
+`;
+
+const Container = styled.div`
   display: flex;
   align-items: center;
   padding: 20px 15px 18px;
-  height: 60px;
-  border-bottom: 1px solid #F1F0EC;
-  
+  max-width: 1440px;
+  width: 100%;
+
   @media (min-width: 640px) {
     padding: 19px 40px;
   }
