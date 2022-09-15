@@ -44,6 +44,11 @@ export class UserReducer extends ImmerReducer<UserState> {
   public setAuthStep(value: AuthStep) {
     this.draftState.authStep = value;
   }
+
+  public cleanAuthState() {
+    this.draftState.authStep = 1;
+    this.draftState.authNumber = null;
+  }
 }
 
 export default createReducerFunction(UserReducer, InitialState);

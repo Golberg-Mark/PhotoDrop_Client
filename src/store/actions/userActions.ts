@@ -11,7 +11,8 @@ export const userActions = createActionCreators(UserReducer);
 export type UserActions = ReturnType<typeof userActions.setUser>
   | ReturnType<typeof userActions.setIsLoggedIn>
   | ReturnType<typeof userActions.setAuthNumber>
-  | ReturnType<typeof userActions.setAuthStep>;
+  | ReturnType<typeof userActions.setAuthStep>
+  | ReturnType<typeof userActions.cleanAuthState>;
 
 export const getMeAction  = (): AsyncAction => async (
   dispatch,

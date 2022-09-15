@@ -20,7 +20,7 @@ const Header = () => {
 
   const backToAuthHandler = () => {
     localStorage.removeItem('token');
-    dispatch(userActions.setAuthStep(1));
+    dispatch(userActions.cleanAuthState());
     navigate('/auth', { replace: true });
   };
 
