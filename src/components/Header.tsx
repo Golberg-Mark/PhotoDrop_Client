@@ -8,22 +8,35 @@ import Logo, { LogoMobile } from '@/icons/Logo';
 import BackIcon from '@/icons/BackIcon';
 import { userActions } from '@/store/actions/userActions';
 
+enum PathNames {
+  AUTH = '/auth/verify',
+  AUTH2 = '/selfie'
+}
+
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   const backToAuthHandler = () => {
+    localStorage.removeItem('token');
     dispatch(userActions.setAuthStep(1));
     navigate('/auth', { replace: true });
+  };
+
+  const getBackArrow = () => {
+    switch (pathname) {
+      case PathNames.AUTH: case PathNames.AUTH2: {
+        return <BackIcon onClick={backToAuthHandler} />;
+      }
+      default: return '';
+    }
   };
 
   return (
     <Container>
       <Back>
-        {pathname === '/auth/verify' ? (
-          <BackIcon onClick={backToAuthHandler} />
-        ) : ''}
+        {getBackArrow()}
       </Back>
       <LogoIcon>
         {window && window.innerWidth < 640 ? <LogoMobile /> : <Logo />}

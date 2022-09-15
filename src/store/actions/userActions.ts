@@ -24,6 +24,8 @@ export const getMeAction  = (): AsyncAction => async (
 
       dispatch(userActions.setUser(user));
       dispatch(userActions.setIsLoggedIn(true));
+
+      if (!user.selfie) dispatch(push('/selfie'));
     }
   } catch (error: any) {
     console.log(error);
