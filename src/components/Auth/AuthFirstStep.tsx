@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+
 import PhoneInput from '@/components/PhoneInput';
 import Button from '@/components/Button';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthNumber } from '@/store/selectors/userSelector';
 import { createAccountAction } from '@/store/actions/userActions';
 import PageTitle from '@/components/PageTitle';
 import useToggle from '@/hooks/useToggle';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
 import Loader from '@/components/Loader';
+import useKeyPress from '@/hooks/useKeyPress';
 
 const AuthFirstStep = () => {
   const [isLoading, toggleIsLoading] = useToggle();
+  const isEnterPressed = useKeyPress('Enter');
   const dispatch = useDispatch();
   const authNumber = useSelector(selectAuthNumber);
   const error = useSelector(selectErrorMessage);
@@ -19,6 +22,10 @@ const AuthFirstStep = () => {
   useEffect(() => {
     if (error) toggleIsLoading(false);
   }, [error]);
+
+  useEffect(() => {
+    if (isEnterPressed) createAccountHandler();
+  }, [isEnterPressed]);
 
   const createAccountHandler = () => {
     if (authNumber) {

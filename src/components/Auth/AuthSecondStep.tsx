@@ -1,26 +1,39 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
+import ReactCodeInput from 'react-code-input';
 
 import PageTitle from '@/components/PageTitle';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthNumber } from '@/store/selectors/userSelector';
 import formatPhoneNumber from '@/utils/formatPhoneNumber';
-import ReactCodeInput from 'react-code-input';
 import useToggle from '@/hooks/useToggle';
-import { createAccountAction, verifyOtpAction } from '@/store/actions/userActions';
+import { createAccountAction, userActions, verifyOtpAction } from '@/store/actions/userActions';
 import Button from '@/components/Button';
 import useInput from '@/hooks/useInput';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
 import Loader from '@/components/Loader';
+import useKeyPress from '@/hooks/useKeyPress';
 
 const AuthSecondStep = () => {
   const [code, setCode] = useInput('', 6);
   const [isCodeResend, toggleIsCodeResend] = useToggle();
   const [isLoading, toggleIsLoading] = useToggle();
+  const navigate = useNavigate();
+  const isEnterPressed = useKeyPress('Enter');
+  const isEscapePressed = useKeyPress('Escape');
   const { countryCode, phoneNumber } = useSelector(selectAuthNumber)!;
   const error = useSelector(selectErrorMessage);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isEnterPressed) sendOtp();
+    if (isEscapePressed) {
+      dispatch(userActions.setAuthStep(1));
+      navigate(-1);
+    }
+  }, [isEnterPressed, isEscapePressed]);
 
   useEffect(() => {
     if (isCodeResend) {
