@@ -1,13 +1,13 @@
 import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import useToggle from '@/hooks/useToggle';
 import Background from '@/components/Background';
 import { countryList } from '@/utils/countryList';
-import DownIcon from '@/assets/icons/DownIcon.svg';
+import DownIcon from '@/icons/DownIcon.svg';
 import useInput from '@/hooks/useInput';
 import formatPhoneNumber from '@/utils/formatPhoneNumber';
-import { useDispatch } from 'react-redux';
 import { userActions } from '@/store/actions/userActions';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement>{}

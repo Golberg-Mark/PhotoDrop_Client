@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 
-import Logo, { LogoMobile } from '@/assets/icons/Logo';
+import Logo, { LogoMobile } from '@/icons/Logo';
 
 const Header = () => {
   const { pathname } = useLocation();
