@@ -13,6 +13,7 @@ import ErrorModalWindow from '@/containers/ErrorModalWindow';
 import ProtectedRouter from '@/containers/ProtectedRouter';
 import Albums from '@/containers/Albums';
 import Auth from '@/containers/Auth';
+import Selfie from '@/containers/Selfie';
 
 const GlobalStyle = createGlobalStyle`
   ${normalize};
@@ -71,10 +72,13 @@ const App: React.FC = () => {
     <GlobalContainer>
       <GlobalStyle />
       <Header />
-      <Routes>
-        <Route path="/" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
-        <Route path="/auth/*" element={<Auth />} />
-      </Routes>
+      <RoutesContainer>
+        <Routes>
+          <Route path="/" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
+          <Route path="/auth/*" element={<Auth />} />
+          <Route path="/selfie" element={<ProtectedRouter><Selfie /></ProtectedRouter>} />
+        </Routes>
+      </RoutesContainer>
       {errorMessage ? <ErrorModalWindow error={errorMessage} /> : ''}
     </GlobalContainer>
   );
@@ -87,6 +91,11 @@ const GlobalContainer = styled.section`
   margin: 0 auto;
   max-width: 1440px;
   height: 100vh;
+`;
+
+const RoutesContainer = styled.div`
+  padding: 0 15px;
+  min-height: calc(100% - 60px);
 `;
 
 export default App;

@@ -93,12 +93,14 @@ const StyledPhoneInput = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 10px;
+  max-width: 375px;
 `;
 
 const CountrySelector = styled.button`
   position: relative;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   padding: 8px;
   width: 70px;
   height: 40px;
@@ -132,7 +134,7 @@ const CountrySelector = styled.button`
 const CodesModalWindow = styled.div`
   display: block;
   padding: 5px 10px;
-  width: 375px;
+  width: 100%;
   height: 100%;
   background-color: #fff;
   overflow-y: scroll;
@@ -158,10 +160,8 @@ const Code = styled.span`
 `;
 
 const Input = styled.input`
-  display: flex;
-  align-items: center;
   padding: 8px;
-  width: 265px;
+  width: 100%;
   height: 40px;
   background-color: #F4F4F4;
   border: 1px solid #EEE;

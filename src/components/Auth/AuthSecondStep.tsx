@@ -128,7 +128,8 @@ const StyledReactCodeInput = styled(ReactCodeInput)`
 
 const InputStyles = {
   inputStyle: {
-    width: '45px',
+    width: 'calc(100% / 6)',
+    maxWidth: '45px',
     height: '40px',
     textAlign: 'center',
     border: '1px solid #EEE',

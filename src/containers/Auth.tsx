@@ -25,8 +25,7 @@ const Auth = () => {
 const Container = styled.div`
   position: relative;
   margin: 0 auto;
-  padding: 0 15px;
-  width: 375px;
+  max-width: 375px;
 `;
 
 export default Auth;
