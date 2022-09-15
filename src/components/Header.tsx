@@ -57,6 +57,7 @@ const StyledHeader = styled.header`
 const Container = styled.div`
   display: flex;
   align-items: center;
+  margin: 0 auto;
   padding: 20px 15px 18px;
   max-width: 1440px;
   width: 100%;
