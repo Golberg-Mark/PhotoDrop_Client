@@ -8,7 +8,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.FC<Props> = ({
   children,
-  width = 345,
+  width = 375,
   isAlternativeStyle = false,
   ...props
 }) => {

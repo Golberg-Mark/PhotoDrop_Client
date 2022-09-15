@@ -134,6 +134,7 @@ const CountrySelector = styled.button`
 const CodesModalWindow = styled.div`
   display: block;
   padding: 5px 10px;
+  max-width: 375px;
   width: 100%;
   height: 100%;
   background-color: #fff;
