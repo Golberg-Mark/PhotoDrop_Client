@@ -16,6 +16,7 @@
     "react": "^18.2.0",
     "react-code-input": "^3.10.1",
     "react-dom": "^18.2.0",
+    "react-easy-crop": "^4.5.0",
     "react-redux": "7.2.8",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
