@@ -10,7 +10,7 @@ const Selfie = () => {
   const [isCropperVisible, toggleIsCropperVisible] = useToggle();
 
   const inputFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files?.item(0)) {
+    if (evt.target.files) {
       const url = URL.createObjectURL(evt.target.files[0]);
 
       setFile(url);
