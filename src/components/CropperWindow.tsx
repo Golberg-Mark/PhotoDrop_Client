@@ -5,6 +5,8 @@ import Cropper, { Area } from 'react-easy-crop';
 import { HandleToggle } from '@/hooks/useToggle';
 import CloseIcon from '@/icons/CloseIcon';
 import getCroppedImg from '@/utils/getCroppedImage';
+import { useDispatch } from 'react-redux';
+import { uploadSelfieAction } from '@/store/actions/userActions';
 
 interface Props {
   hide: HandleToggle,
@@ -17,6 +19,8 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide }) => {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
+  const dispatch = useDispatch();
+
   const cropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
@@ -28,7 +32,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide }) => {
         croppedAreaPixels
       );
       console.log('donee', { croppedImage });
-      /*TODO: upload cropped image to s3*/
+      dispatch(uploadSelfieAction(croppedImage));
     } catch (e) {
       console.error(e);
     }
@@ -71,6 +75,9 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide }) => {
           Retake
           <input type="file" multiple={false} onChange={setNewImage} />
         </Retake>
+        <Save onClick={createCroppedImage}>
+          Save
+        </Save>
       </Buttons>
     </StyledCropperWindow>
   ) : <></>;
@@ -146,7 +153,8 @@ const Description = styled.p`
 `;
 
 const Buttons = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
 `;
 
@@ -165,6 +173,19 @@ const Retake = styled.label`
   input {
     display: none;
   }
+`;
+
+const Save = styled.button`
+  padding: 14px 10px;
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  color: #262626;
+  font-weight: 500;
+  text-align: center;
+  border: none;
+  background-color: #fff;
+  border-radius: 50px;
 `;
 
 export default CropperWindow;

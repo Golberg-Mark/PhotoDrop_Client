@@ -15,4 +15,6 @@ export class MainApiProtected extends HttpClientProtected {
   }
 
   public getClient = () => this.instance.get<User>('/client');
+
+  public getPreassignedUrl = () => this.instance.get<{ url: string }>('/getPresignedUrl');
 }
