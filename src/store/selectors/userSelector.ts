@@ -9,6 +9,11 @@ export const selectUser: Selector<State, User | null> = createSelector(
   ({ user }) => user
 );
 
+export const selectTempUserPhoto: Selector<State, string | null> = createSelector(
+  userState,
+  ({ tempUserPhoto }) => tempUserPhoto
+);
+
 export const selectIsLoggedIn: Selector<State, boolean> = createSelector(
   userState,
   ({ isLoggedIn }) => isLoggedIn

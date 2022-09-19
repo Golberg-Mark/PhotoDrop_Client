@@ -60,7 +60,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide }) => {
         <Description>Drag and zoom image to crop</Description>
         <Cropper
           image={path}
-          aspect={4 / 3}
+          aspect={1}
           crop={crop}
           onCropChange={setCrop}
           zoom={zoom}
@@ -68,6 +68,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide }) => {
           cropShape="round"
           showGrid={false}
           onCropComplete={cropComplete}
+          cropSize={{ width: 285, height: 285 }}
         />
       </div>
       <Buttons>

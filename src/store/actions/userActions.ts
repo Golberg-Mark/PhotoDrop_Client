@@ -1,10 +1,11 @@
 import { createActionCreators } from 'immer-reducer';
 import axios from 'axios';
+import { push } from '@lagunovsky/redux-react-router';
+import { Buffer } from 'buffer';
 
 import { PhoneNumber, User, UserReducer } from '@/store/reducers/user';
 import { AsyncAction } from '@/store/actions/common';
 import { errorActions } from '@/store/actions/errorActions';
-import { push } from '@lagunovsky/redux-react-router';
 
 export const userActions = createActionCreators(UserReducer);
 
@@ -12,7 +13,8 @@ export type UserActions = ReturnType<typeof userActions.setUser>
   | ReturnType<typeof userActions.setIsLoggedIn>
   | ReturnType<typeof userActions.setAuthNumber>
   | ReturnType<typeof userActions.setAuthStep>
-  | ReturnType<typeof userActions.cleanAuthState>;
+  | ReturnType<typeof userActions.cleanAuthState>
+  | ReturnType<typeof userActions.setTempUserPhoto>;
 
 export const getMeAction  = (): AsyncAction => async (
   dispatch,
@@ -82,27 +84,24 @@ export const verifyOtpAction  = (number: PhoneNumber, code: string): AsyncAction
   }
 };
 
-export const uploadSelfieAction = (file: Blob): AsyncAction => async (
+export const uploadSelfieAction = (file: string): AsyncAction => async (
   dispatch,
-  getState,
+  _,
   { mainApiProtected }
 ) => {
   try {
     const { url } = await mainApiProtected.getPreassignedUrl();
 
     if (url) {
-      axios.put(url, file, {
-        headers: {
-          'Content-Type': file.type
-        }
-      }).then(_ => {
-        const { user } = getState().userReducer;
-        const updatedState: User = {
-          ...user!,
-          selfie: url
-        };
+      const buf = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ""),'base64');
 
-        dispatch(userActions.setUser(updatedState));
+      axios.put(url, buf, {
+        headers: {
+          'ContentEncoding': 'base64',
+          'Content-Type': 'image/jpeg'
+        }
+      }).then(__ => {
+        dispatch(userActions.setTempUserPhoto(file));
         dispatch(push('/'));
       });
     }
