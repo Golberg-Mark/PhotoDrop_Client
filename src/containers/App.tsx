@@ -14,6 +14,7 @@ import ProtectedRouter from '@/containers/ProtectedRouter';
 import Albums from '@/containers/Albums';
 import Auth from '@/containers/Auth';
 import Selfie from '@/containers/Selfie';
+import Profile from '@/containers/Profile';
 
 const GlobalStyle = createGlobalStyle`
   ${normalize};
@@ -77,6 +78,7 @@ const App: React.FC = () => {
           <Route path="/" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
           <Route path="/auth/*" element={<Auth />} />
           <Route path="/selfie" element={<ProtectedRouter><Selfie /></ProtectedRouter>} />
+          <Route path="/profile" element={<ProtectedRouter><Profile /></ProtectedRouter>} />
         </Routes>
         {errorMessage ? <ErrorModalWindow error={errorMessage} /> : ''}
       </GlobalContainer>

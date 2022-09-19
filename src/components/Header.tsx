@@ -12,6 +12,7 @@ import { selectTempUserPhoto, selectUser } from '@/store/selectors/userSelector'
 enum PathNames {
   AUTH = '/auth/verify',
   AUTH2 = '/selfie',
+  PROFILE = '/profile',
   MAIN_PAGE = '/'
 }
 
@@ -33,11 +34,14 @@ const Header = () => {
       case PathNames.AUTH: case PathNames.AUTH2: {
         return <BackIcon onClick={backToAuthHandler} />;
       }
+      case PathNames.PROFILE : {
+        return <BackIcon onClick={() => navigate(-1)} />
+      }
       default: return '';
     }
   };
 
-  const selfie = user?.selfie || tempPhoto;
+  const selfie =  tempPhoto || user?.selfie;
   const isWithSelfie = pathname === PathNames.MAIN_PAGE && selfie;
 
   return (
@@ -65,7 +69,8 @@ const StyledHeader = styled.header`
 `;
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   margin: 0 auto;
   padding: 20px 15px 18px;
@@ -86,6 +91,8 @@ const LogoIcon = styled.div`
 `;
 
 const Profile = styled(Link)`
+  display: block;
+  margin: 0 0 0 auto;
   width: 35px;
   height: 35px;
   border: none;
