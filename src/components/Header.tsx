@@ -1,19 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 import Logo, { LogoMobile } from '@/icons/Logo';
 import BackIcon from '@/icons/BackIcon';
 import { userActions } from '@/store/actions/userActions';
+import { selectTempUserPhoto, selectUser } from '@/store/selectors/userSelector';
 
 enum PathNames {
   AUTH = '/auth/verify',
-  AUTH2 = '/selfie'
+  AUTH2 = '/selfie',
+  MAIN_PAGE = '/'
 }
 
 const Header = () => {
+  const tempPhoto = useSelector(selectTempUserPhoto);
+  const user = useSelector(selectUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -33,6 +37,9 @@ const Header = () => {
     }
   };
 
+  const selfie = user?.selfie || tempPhoto;
+  const isWithSelfie = pathname === PathNames.MAIN_PAGE && selfie;
+
   return (
     <StyledHeader>
       <Container>
@@ -42,6 +49,9 @@ const Header = () => {
         <LogoIcon>
           {window && window.innerWidth < 640 ? <LogoMobile /> : <Logo />}
         </LogoIcon>
+        <Profile to="/profile">
+          {isWithSelfie ? <ProfilePhoto src={selfie} alt="Your selfie"/> : ''}
+        </Profile>
       </Container>
     </StyledHeader>
   );
@@ -73,6 +83,22 @@ const Back = styled.div`
 
 const LogoIcon = styled.div`
   margin: 0 auto;
+`;
+
+const Profile = styled(Link)`
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const ProfilePhoto = styled.img`
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
 `;
 
 export default Header;
