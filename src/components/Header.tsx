@@ -48,12 +48,13 @@ const Header = () => {
     let previousPage: string | string[] = [...pathNames];
     previousPage = previousPage.length === 2 ? previousPage[0] : '/';
 
+    if (new RegExp(/\/profile\/.*/).test(pathname)) {
+      return <BackIcon onClick={() => navigate(previousPage as string)} />
+    }
+
     switch (pathname) {
       case PathNames.AUTH: case PathNames.AUTH2: {
         return <BackIcon onClick={backToAuthHandler} />;
-      }
-      case PathNames.PROFILE : {
-        return <BackIcon onClick={() => navigate(previousPage as string)} />
       }
       default: return '';
     }
