@@ -17,7 +17,7 @@ const Profile = () => {
       <Routes>
         <Route path="/" element={<ProfilePage />} />
         <Route path="/changeName" element={<SetName isChanging userName={name} />} />
-        <Route path="/setting" element={<div>Settings</div>} />
+        <Route path="/settings" element={<div>Settings</div>} />
         <Route path="/notifications" element={<div>Notifications</div>} />
       </Routes>
     </>
