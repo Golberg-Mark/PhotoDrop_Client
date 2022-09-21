@@ -17,26 +17,11 @@ enum PathNames {
 }
 
 const Header = () => {
-  const [pathNames, setPathNames] = useState(new Set<string>([]));
   const tempPhoto = useSelector(selectTempUserPhoto);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    if (pathNames.size === 2) {
-      setPathNames(prevState => {
-        const values = [...prevState];
-        return new Set([values[1], pathname]);
-      });
-    } else setPathNames((prevState => prevState.add(pathname)));
-  }, [pathname]);
-
-  useEffect(() => {
-    /*TODO: remove this useEffect after testing*/
-    console.log(pathNames);
-  }, [pathNames]);
 
   const backToAuthHandler = () => {
     localStorage.removeItem('token');
@@ -45,11 +30,9 @@ const Header = () => {
   };
 
   const getBackArrow = () => {
-    let previousPage: string | string[] = [...pathNames];
-    previousPage = previousPage.length === 2 ? previousPage[0] : '/';
 
-    if (new RegExp(/\/profile\/.*/).test(pathname)) {
-      return <BackIcon onClick={() => navigate(previousPage as string)} />
+    if (new RegExp(/\/profile.*/).test(pathname)) {
+      return <BackIcon onClick={() => navigate(-1)} />
     }
 
     switch (pathname) {
