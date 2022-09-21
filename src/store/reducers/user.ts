@@ -8,7 +8,7 @@ export interface PhoneNumber {
 }
 
 export interface User {
-  number: string,
+  number: PhoneNumber,
   email?: string,
   selfie?: string,
   name?: string
