@@ -4,7 +4,7 @@ type ChangeEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLT
 
 export type OnChange = (evt: ChangeEvent | string) => void;
 
-type inputType = 'phone' | 'code' | 'common';
+type inputType = 'phone' | 'code' | 'common' | 'name';
 
 const useInput = (
   initialValue: string,
@@ -33,6 +33,22 @@ const useInput = (
         const regexp = new RegExp(/^(\+\d{0,4})$/);
         const changeable = regexp.test(value) && value.length <= maxLength;
         if (changeable) setValue(value);
+        break;
+      }
+      case 'name': {
+        const splitValue = value.split(' ');
+        const changeable = splitValue.length < 3;
+
+        if (changeable) {
+          const capitalizedName = splitValue
+            .map(el => (
+              el[0] ? el[0].toUpperCase() + el.substring(1) : ''
+            ))
+            .join(' ');
+
+          setValue(capitalizedName);
+        }
+
         break;
       }
       default: break;
