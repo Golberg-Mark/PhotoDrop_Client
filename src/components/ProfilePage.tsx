@@ -73,8 +73,9 @@ const ProfilePage = () => {
 
 const StyledProfile = styled.div`
   margin: 0 auto;
-  max-width: 375px;
   padding: 20px 0 0;
+  max-width: 375px;
+  width: 100%;
 `;
 
 const Description = styled.p`
