@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,6 @@ import { selectTempUserPhoto, selectUser } from '@/store/selectors/userSelector'
 enum PathNames {
   AUTH = '/auth/verify',
   AUTH2 = '/selfie',
-  PROFILE = '/profile',
   MAIN_PAGE = '/'
 }
 
