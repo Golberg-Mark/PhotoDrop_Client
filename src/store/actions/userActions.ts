@@ -84,7 +84,7 @@ export const verifyOtpAction  = (number: PhoneNumber, code: string): AsyncAction
   }
 };
 
-export const uploadSelfieAction = (file: string): AsyncAction => async (
+export const uploadSelfieAction = (file: string, withoutRouting: boolean = false): AsyncAction => async (
   dispatch,
   _,
   { mainApiProtected }
@@ -102,7 +102,7 @@ export const uploadSelfieAction = (file: string): AsyncAction => async (
         }
       }).then(__ => {
         dispatch(userActions.setTempUserPhoto(file));
-        dispatch(push('/'));
+        if (!withoutRouting) dispatch(push('/'));
       });
     }
   } catch (error: any) {

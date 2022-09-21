@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,11 +17,26 @@ enum PathNames {
 }
 
 const Header = () => {
+  const [pathNames, setPathNames] = useState(new Set<string>([]));
   const tempPhoto = useSelector(selectTempUserPhoto);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathNames.size === 2) {
+      setPathNames(prevState => {
+        const values = [...prevState];
+        return new Set([values[1], pathname]);
+      });
+    } else setPathNames((prevState => prevState.add(pathname)));
+  }, [pathname]);
+
+  useEffect(() => {
+    /*TODO: remove this useEffect after testing*/
+    console.log(pathNames);
+  }, [pathNames]);
 
   const backToAuthHandler = () => {
     localStorage.removeItem('token');
@@ -30,12 +45,15 @@ const Header = () => {
   };
 
   const getBackArrow = () => {
+    let previousPage: string | string[] = [...pathNames];
+    previousPage = previousPage.length === 2 ? previousPage[0] : '/';
+
     switch (pathname) {
       case PathNames.AUTH: case PathNames.AUTH2: {
         return <BackIcon onClick={backToAuthHandler} />;
       }
       case PathNames.PROFILE : {
-        return <BackIcon onClick={() => navigate(-1)} />
+        return <BackIcon onClick={() => navigate(previousPage as string)} />
       }
       default: return '';
     }

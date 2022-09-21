@@ -8,6 +8,7 @@ import EditIcon from '@/icons/EditIcon';
 import Loader from '@/components/Loader';
 import useToggle from '@/hooks/useToggle';
 import CropperWindow from '@/components/CropperWindow';
+import BackIcon from '@/icons/BackIcon';
 
 const Profile = () => {
   const [chosenPhoto, setChosenPhoto] = useState<string | null>(null);
@@ -58,17 +59,20 @@ const Profile = () => {
           <SettingItem onClick={el.action} key={i}>
             <SettingTitle>{el.title}</SettingTitle>
             <SettingDescription>{el.description}</SettingDescription>
+            <BackIcon />
           </SettingItem>
         ))}
       </Settings>
       {chosenPhoto ? (
-        <CropperWindow hide={() => setChosenPhoto(null)} filePath={chosenPhoto} />
+        <CropperWindow hide={() => setChosenPhoto(null)} filePath={chosenPhoto} withoutRouting />
       ) : ''}
     </StyledProfile>
   ) : <Loader />;
 };
 
 const StyledProfile = styled.div`
+  margin: 0 auto;
+  max-width: 375px;
   padding: 20px 0 0;
 `;
 
@@ -107,13 +111,21 @@ const Settings = styled.ul`
 `;
 
 const SettingItem = styled.li`
-  padding: 10px 25px 10px 15px;
+  position: relative;
+  padding: 10px 40px 10px 15px;
   border: 1px solid #CECCB5;
   border-radius: 10px;
   cursor: pointer;
 
   :hover {
     border: 1px solid #3300CC;
+  }
+  
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%) rotate(180deg);
   }
 `;
 

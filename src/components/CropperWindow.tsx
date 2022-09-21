@@ -10,10 +10,11 @@ import { uploadSelfieAction } from '@/store/actions/userActions';
 
 interface Props {
   hide: HandleToggle,
-  filePath: string
+  filePath: string,
+  withoutRouting?: boolean
 }
 
-const CropperWindow: React.FC<Props> = ({ filePath, hide }) => {
+const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false }) => {
   const [path, setPath] = useState(filePath);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -32,7 +33,8 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide }) => {
         croppedAreaPixels
       );
       console.log('donee', { croppedImage });
-      dispatch(uploadSelfieAction(croppedImage));
+      dispatch(uploadSelfieAction(croppedImage, withoutRouting));
+      if (withoutRouting) hide(false);
     } catch (e) {
       console.error(e);
     }
