@@ -3,7 +3,7 @@ import axios from 'axios';
 import { push } from '@lagunovsky/redux-react-router';
 import { Buffer } from 'buffer';
 
-import { PhoneNumber, User, UserReducer } from '@/store/reducers/user';
+import { PhoneNumber, UpdateUser, User, UserReducer } from '@/store/reducers/user';
 import { AsyncAction } from '@/store/actions/common';
 import { errorActions } from '@/store/actions/errorActions';
 
@@ -14,7 +14,9 @@ export type UserActions = ReturnType<typeof userActions.setUser>
   | ReturnType<typeof userActions.setAuthNumber>
   | ReturnType<typeof userActions.setAuthStep>
   | ReturnType<typeof userActions.cleanAuthState>
-  | ReturnType<typeof userActions.setTempUserPhoto>;
+  | ReturnType<typeof userActions.setTempUserPhoto>
+  | ReturnType<typeof userActions.setTempUserName>
+  | ReturnType<typeof userActions.setTempUserEmail>;
 
 export const getMeAction  = (): AsyncAction => async (
   dispatch,
@@ -104,6 +106,27 @@ export const uploadSelfieAction = (file: string, withoutRouting: boolean = false
         dispatch(userActions.setTempUserPhoto(file));
         if (!withoutRouting) dispatch(push('/'));
       });
+    }
+  } catch (error: any) {
+    console.log(error);
+    if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));
+  }
+};
+
+export const updateClientAction = (body: UpdateUser, navigateTo: string): AsyncAction => async (
+  dispatch,
+  _,
+  { mainApiProtected }
+) => {
+  try {
+    const { message } = await mainApiProtected.updateClient(body);
+
+    if (message) {
+      body.name
+        ? dispatch(userActions.setTempUserName(body.name))
+        : dispatch(userActions.setTempUserEmail(body.email!));
+
+      dispatch(push(navigateTo));
     }
   } catch (error: any) {
     console.log(error);

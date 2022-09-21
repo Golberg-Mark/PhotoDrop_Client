@@ -14,6 +14,16 @@ export const selectTempUserPhoto: Selector<State, string | null> = createSelecto
   ({ tempUserPhoto }) => tempUserPhoto
 );
 
+export const selectTempUserName: Selector<State, string | null> = createSelector(
+  userState,
+  ({ tempUserName }) => tempUserName
+);
+
+export const selectTempUserEmail: Selector<State, string | null> = createSelector(
+  userState,
+  ({ tempUserEmail }) => tempUserEmail
+);
+
 export const selectIsLoggedIn: Selector<State, boolean> = createSelector(
   userState,
   ({ isLoggedIn }) => isLoggedIn

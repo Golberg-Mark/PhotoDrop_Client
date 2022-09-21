@@ -14,9 +14,16 @@ export interface User {
   name?: string
 }
 
+export interface UpdateUser {
+  name?: string,
+  email?: string
+}
+
 interface UserState {
   user: User | null,
   tempUserPhoto: string | null,
+  tempUserName: string | null,
+  tempUserEmail: string | null,
   authNumber: PhoneNumber | null,
   authStep: AuthStep,
   isLoggedIn: boolean
@@ -25,6 +32,8 @@ interface UserState {
 const InitialState: UserState = {
   user: null,
   tempUserPhoto: null,
+  tempUserName: null,
+  tempUserEmail: null,
   authNumber: null,
   authStep: 1,
   isLoggedIn: !!localStorage.getItem('token')
@@ -37,6 +46,14 @@ export class UserReducer extends ImmerReducer<UserState> {
 
   public setTempUserPhoto(value: string | null) {
     this.draftState.tempUserPhoto = value;
+  }
+
+  public setTempUserName(value: string | null) {
+    this.draftState.tempUserName = value;
+  }
+
+  public setTempUserEmail(value: string | null) {
+    this.draftState.tempUserEmail = value;
   }
 
   public setIsLoggedIn(value: boolean) {

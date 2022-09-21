@@ -1,5 +1,5 @@
 import { HttpClientProtected } from '@/api/httpClientProtected';
-import { User } from '@/store/reducers/user';
+import { UpdateUser, User } from '@/store/reducers/user';
 
 export class MainApiProtected extends HttpClientProtected {
   private static instanceCached: MainApiProtected;
@@ -17,4 +17,6 @@ export class MainApiProtected extends HttpClientProtected {
   public getClient = () => this.instance.get<User>('/client');
 
   public getPreassignedUrl = () => this.instance.get<{ url: string }>('/getPresignedUrl');
+
+  public updateClient = (body: UpdateUser) => this.instance.put<{ message: string }>('/client', body);
 }
