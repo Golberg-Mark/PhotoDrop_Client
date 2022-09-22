@@ -31,7 +31,8 @@ const ProfilePage = () => {
     {
       title: 'Notification settings',
       description: 'How should we contact you?',
-      action: () => navigate('/profile/notifications')
+      disabled: true,
+      action: () => {}
     },
   ];
 
@@ -57,7 +58,7 @@ const ProfilePage = () => {
       </PhotoLabel>
       <Settings>
         {setting.map((el, i) => (
-          <SettingItem onClick={el.action} key={i}>
+          <SettingItem isDisabled={!!el.disabled} onClick={el.action} key={i}>
             <SettingTitle>{el.title}</SettingTitle>
             <SettingDescription>{el.description}</SettingDescription>
             <BackIcon />
@@ -112,15 +113,16 @@ const Settings = styled.ul`
   grid-gap: 5px;
 `;
 
-const SettingItem = styled.li`
+const SettingItem = styled.li<{ isDisabled: boolean }>`
   position: relative;
   padding: 10px 40px 10px 15px;
   border: 1px solid #CECCB5;
   border-radius: 10px;
-  cursor: pointer;
+  cursor: ${({ isDisabled }) => isDisabled ? 'default' : 'pointer'};
+  ${({ isDisabled }) => isDisabled ? 'opacity: .5' : ''};
 
   :hover {
-    border: 1px solid #3300CC;
+    ${({ isDisabled }) => isDisabled ? '' : 'border: 1px solid #3300CC'};
   }
   
   svg {
