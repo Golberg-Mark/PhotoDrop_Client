@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import ReactCodeInput from 'react-code-input';
 
 import PageTitle from '@/components/PageTitle';
-import { selectAuthNumber } from '@/store/selectors/userSelector';
+import { selectAuthNumber, selectUser } from '@/store/selectors/userSelector';
 import formatPhoneNumber from '@/utils/formatPhoneNumber';
 import useToggle from '@/hooks/useToggle';
 import { createAccountAction, userActions, verifyOtpAction } from '@/store/actions/userActions';
@@ -14,14 +14,20 @@ import useInput from '@/hooks/useInput';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
 import Loader from '@/components/Loader';
 import useKeyPress from '@/hooks/useKeyPress';
+import { PhoneRequest } from '@/api/mainApi';
 
-const AuthSecondStep = () => {
+interface Props {
+  isItChanging?: boolean
+}
+
+const AuthSecondStep: React.FC<Props> = ({ isItChanging }) => {
   const [code, setCode] = useInput('', 6);
   const [isCodeResend, toggleIsCodeResend] = useToggle();
   const [isLoading, toggleIsLoading] = useToggle();
   const navigate = useNavigate();
   const isEnterPressed = useKeyPress('Enter');
   const isEscapePressed = useKeyPress('Escape');
+  const user = useSelector(selectUser);
   const { countryCode, phoneNumber } = useSelector(selectAuthNumber)!;
   const error = useSelector(selectErrorMessage);
 
@@ -50,8 +56,13 @@ const AuthSecondStep = () => {
   }, [error]);
 
   const resendCode = () => {
+    const body: PhoneRequest = {
+      number: isItChanging ? user!.number : { countryCode, phoneNumber },
+      newNumber: isItChanging ? { countryCode, phoneNumber } : undefined
+    };
+
     toggleIsCodeResend(true);
-    dispatch(createAccountAction({ countryCode, phoneNumber }, true));
+    dispatch(createAccountAction(body, true));
   };
 
   const codeChangeHandler = (value: string) => {
@@ -59,8 +70,13 @@ const AuthSecondStep = () => {
   };
 
   const sendOtp = () => {
+    const body: PhoneRequest = {
+      number: isItChanging ? user!.number : { countryCode, phoneNumber },
+      newNumber: isItChanging ? { countryCode, phoneNumber } : undefined
+    };
+
     toggleIsLoading(true);
-    dispatch(verifyOtpAction({ countryCode, phoneNumber }, code));
+    dispatch(verifyOtpAction(body, code));
   };
 
   const isCorrect = code.length === 6;

@@ -6,6 +6,7 @@ import { Buffer } from 'buffer';
 import { PhoneNumber, UpdateUser, User, UserReducer } from '@/store/reducers/user';
 import { AsyncAction } from '@/store/actions/common';
 import { errorActions } from '@/store/actions/errorActions';
+import { PhoneRequest } from '@/api/mainApi';
 
 export const userActions = createActionCreators(UserReducer);
 
@@ -40,17 +41,21 @@ export const getMeAction  = (): AsyncAction => async (
   }
 };
 
-export const createAccountAction  = (number: PhoneNumber, isResend?: boolean): AsyncAction => async (
+export const createAccountAction  = (body: PhoneRequest, isResend?: boolean): AsyncAction => async (
   dispatch,
   _,
   { mainApi }
 ) => {
   try {
-    const { message } = await mainApi.createAccount(number);
+    const { message } = await mainApi.createAccount(body);
 
-    if (message && !isResend) {
-      dispatch(userActions.setAuthStep(2));
-      dispatch(push('/auth/verify'));
+    if (message) {
+      if (!isResend) {
+        const redirectPath = body.newNumber ? '/profile/settings/changePhone/verify' : '/auth/verify';
+
+        dispatch(userActions.setAuthStep(2));
+        dispatch(push(redirectPath));
+      }
     }
   } catch (error: any) {
     console.log(error);
@@ -58,13 +63,13 @@ export const createAccountAction  = (number: PhoneNumber, isResend?: boolean): A
   }
 };
 
-export const verifyOtpAction  = (number: PhoneNumber, code: string): AsyncAction => async (
+export const verifyOtpAction  = (body: PhoneRequest, code: string): AsyncAction => async (
   dispatch,
   _,
   { mainApi, mainApiProtected }
 ) => {
   try {
-    const { token } = await mainApi.verifyOtp(number, code);
+    const { token } = await mainApi.verifyOtp(body, code);
 
     if (token) {
       localStorage.setItem('token', token);

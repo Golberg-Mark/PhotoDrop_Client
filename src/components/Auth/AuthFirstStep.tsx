@@ -4,18 +4,24 @@ import styled from 'styled-components';
 
 import PhoneInput from '@/components/PhoneInput';
 import Button from '@/components/Button';
-import { selectAuthNumber } from '@/store/selectors/userSelector';
+import { selectAuthNumber, selectUser } from '@/store/selectors/userSelector';
 import { createAccountAction } from '@/store/actions/userActions';
 import PageTitle from '@/components/PageTitle';
 import useToggle from '@/hooks/useToggle';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
 import Loader from '@/components/Loader';
 import useKeyPress from '@/hooks/useKeyPress';
+import { PhoneRequest } from '@/api/mainApi';
 
-const AuthFirstStep = () => {
+interface Props {
+  isItChanging?: boolean
+}
+
+const AuthFirstStep: React.FC<Props> = ({ isItChanging }) => {
   const [isLoading, toggleIsLoading] = useToggle();
   const isEnterPressed = useKeyPress('Enter');
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const authNumber = useSelector(selectAuthNumber);
   const error = useSelector(selectErrorMessage);
 
@@ -29,8 +35,13 @@ const AuthFirstStep = () => {
 
   const createAccountHandler = () => {
     if (authNumber) {
+      const body: PhoneRequest = {
+        number: isItChanging ? user!.number : authNumber,
+        newNumber: isItChanging ? authNumber : undefined
+      };
+
       toggleIsLoading(true);
-      dispatch(createAccountAction(authNumber));
+      dispatch(createAccountAction(body));
     }
   };
 

@@ -1,6 +1,11 @@
 import HttpClient from '@/api/httpClient';
 import { PhoneNumber } from '@/store/reducers/user';
 
+export interface PhoneRequest {
+  number: PhoneNumber,
+  newNumber?: PhoneNumber
+}
+
 class MainApi extends HttpClient {
   private static instanceCached: MainApi;
 
@@ -14,12 +19,12 @@ class MainApi extends HttpClient {
     return MainApi.instanceCached;
   }
 
-  public createAccount = (number: PhoneNumber) => (
-    this.instance.post<{ message: string }>('/sendOtp', { number })
+  public createAccount = (body: PhoneRequest) => (
+    this.instance.post<{ message: string }>('/sendOtp', body)
   );
 
-  public verifyOtp = (number: PhoneNumber, code: string) => (
-    this.instance.post<{ token: string }>('/verifyOtp', { number, code })
+  public verifyOtp = (body: PhoneRequest, code: string) => (
+    this.instance.post<{ token: string }>('/verifyOtp', { ...body, code })
   );
 }
 
