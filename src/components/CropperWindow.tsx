@@ -2,11 +2,12 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import Cropper, { Area } from 'react-easy-crop';
-import { HandleToggle } from '@/hooks/useToggle';
+import useToggle, { HandleToggle } from '@/hooks/useToggle';
 import CloseIcon from '@/icons/CloseIcon';
 import getCroppedImg from '@/utils/getCroppedImage';
 import { useDispatch } from 'react-redux';
 import { uploadSelfieAction } from '@/store/actions/userActions';
+import Loader from '@/components/Loader';
 
 interface Props {
   hide: HandleToggle,
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false }) => {
+  const [isLoading, toggleIsLoading] = useToggle();
   const [path, setPath] = useState(filePath);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -28,14 +30,16 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
 
   const createCroppedImage = useCallback(async () => {
     try {
+      toggleIsLoading(true);
       const croppedImage = await getCroppedImg(
         path,
         croppedAreaPixels
       );
-      console.log('donee', { croppedImage });
+
       dispatch(uploadSelfieAction(croppedImage, withoutRouting));
       if (withoutRouting) hide(false);
     } catch (e) {
+      toggleIsLoading(false);
       console.error(e);
     }
   }, [croppedAreaPixels]);
@@ -79,7 +83,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
           <input type="file" multiple={false} onChange={setNewImage} />
         </Retake>
         <Save onClick={createCroppedImage}>
-          Save
+          {isLoading ? <Loader /> : 'Save'}
         </Save>
       </Buttons>
     </StyledCropperWindow>
@@ -103,6 +107,10 @@ const StyledCropperWindow = styled.div`
     width: calc(100% + 2px);
     height: 285px;
     background-color: #262626;
+    
+    @media (min-width: 768px) {
+      width: calc(100% - 2px);
+    }
   }
   
   .reactEasyCrop_Contain {
@@ -119,6 +127,15 @@ const StyledCropperWindow = styled.div`
       width: 250px !important;
       height: 250px !important;
     }
+  }
+
+  @media (min-width: 768px) {
+    width: 420px;
+    height: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
   }
 `;
 
