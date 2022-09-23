@@ -19,8 +19,21 @@ export interface UpdateUser {
   email?: string
 }
 
+export interface Photo {
+  url: string,
+  watermark: boolean
+}
+
+export interface Album {
+  name: string,
+  location: string,
+  date: string,
+  photos: Photo[]
+}
+
 interface UserState {
   user: User | null,
+  albums: Album[] | null,
   tempUserPhoto: string | null,
   tempUserName: string | null,
   tempUserEmail: string | null,
@@ -31,6 +44,7 @@ interface UserState {
 
 const InitialState: UserState = {
   user: null,
+  albums: null,
   tempUserPhoto: null,
   tempUserName: null,
   tempUserEmail: null,
@@ -54,6 +68,10 @@ export class UserReducer extends ImmerReducer<UserState> {
 
   public setTempUserEmail(value: string | null) {
     this.draftState.tempUserEmail = value;
+  }
+
+  public setAlbums(value: Album[] | null) {
+    this.draftState.albums = value;
   }
 
   public setIsLoggedIn(value: boolean) {

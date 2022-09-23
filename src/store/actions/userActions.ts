@@ -17,7 +17,8 @@ export type UserActions = ReturnType<typeof userActions.setUser>
   | ReturnType<typeof userActions.cleanAuthState>
   | ReturnType<typeof userActions.setTempUserPhoto>
   | ReturnType<typeof userActions.setTempUserName>
-  | ReturnType<typeof userActions.setTempUserEmail>;
+  | ReturnType<typeof userActions.setTempUserEmail>
+  | ReturnType<typeof userActions.setAlbums>;
 
 export const getMeAction  = (): AsyncAction => async (
   dispatch,
@@ -133,6 +134,21 @@ export const updateClientAction = (body: UpdateUser, navigateTo: string): AsyncA
 
       dispatch(push(navigateTo));
     }
+  } catch (error: any) {
+    console.log(error);
+    if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));
+  }
+};
+
+export const getAlbumsAction = (): AsyncAction => async (
+  dispatch,
+  _,
+  { mainApiProtected }
+) => {
+  try {
+    const albums = await mainApiProtected.getAlbums();
+
+    dispatch(userActions.setAlbums(albums));
   } catch (error: any) {
     console.log(error);
     if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));
