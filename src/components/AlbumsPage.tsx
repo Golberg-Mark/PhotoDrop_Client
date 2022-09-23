@@ -73,7 +73,7 @@ const StyledAlbumsPage = styled.div`
 `;
 
 const EmptyAlbums = styled.div`
-  width: 100vw;
+  width: calc(100vw - 15px);
   margin-bottom: 40px;
   margin-left: -15px;
   padding: 0 15px 40px;
