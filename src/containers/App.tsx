@@ -75,7 +75,7 @@ const App: React.FC = () => {
       <GlobalContainer>
         <GlobalStyle />
         <Routes>
-          <Route path="/" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
+          <Route path="/*" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
           <Route path="/auth/*" element={<Auth />} />
           <Route path="/selfie" element={<ProtectedRouter><Selfie /></ProtectedRouter>} />
           <Route path="/profile/*" element={<ProtectedRouter><Profile /></ProtectedRouter>} />
