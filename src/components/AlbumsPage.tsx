@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import DropSoonIcon from '@/icons/DropSoonIcon';
@@ -7,11 +8,11 @@ import PageTitle from '@/components/PageTitle';
 import { selectAlbums } from '@/store/selectors/userSelector';
 import { getAlbumsAction, userActions } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
-import FirstArtPrint from '/assets/FirstArtPrint.png';
-import SecondArtPrint from '/assets/SecondArtPrint.png';
-import ThirdArtPrint from '/assets/ThirdArtPrint.png';
+import Button from '@/components/Button';
 
 const AlbumsPage = () => {
+  const [photosPage, setPhotosPage] = useState(1);
+  const [photoLinks, setPhotoLinks] = useState<string[]>([]);
   const albums = useSelector(selectAlbums);
   const dispatch = useDispatch();
 
@@ -22,6 +23,18 @@ const AlbumsPage = () => {
       dispatch(userActions.setAlbums(null));
     }
   }, []);
+
+  useEffect(() => {
+    if (albums?.length) {
+      let photos: string[] = [];
+
+      albums.forEach((album) => {
+        album.photos.forEach((photo) => photos.push(photo.url));
+      });
+
+      setPhotoLinks(photos);
+    }
+  }, [albums]);
 
   const getContent = useCallback(() => {
       if (albums === null) return <Loader />;
@@ -55,10 +68,46 @@ const AlbumsPage = () => {
             </BrowseArtPrints>
           </>
         );
-      } else return (
-        <div>MEM</div>
-      );
-  }, [albums]);
+      } else {
+        let photos = [];
+
+        for (let i = 0; i < photosPage * 3; i++) {
+          if (photoLinks[i]) photos.push(<img src={photoLinks[i]} alt="Your Photo"/>);
+          else break;
+        }
+
+        return (
+          <NonEmptyAlbums>
+            <PageTitle fontSize={18} textAlign="left" marginBottom={20}>
+              Albums
+            </PageTitle>
+            <AlbumsList withMarginBottom>
+              {albums.map((el, i) => (
+                <Link to={`/albums/${el.name}`} key={`${el.name + i}`}>
+                  <AlbumsListItem>
+                    <img src={el.photos[0].url} alt={el.name} />
+                  </AlbumsListItem>
+                </Link>
+              ))}
+            </AlbumsList>
+            <PageTitle fontSize={18} textAlign="left" marginBottom={20}>
+              All photos
+            </PageTitle>
+            <PhotoList>
+              {photos}
+            </PhotoList>
+            {photoLinks.length !== photos.length ? (
+              <Button
+                style={{ display: 'block', margin: '0 auto' }}
+                onClick={() => setPhotosPage(prevState => ++prevState)}
+              >
+                Show more
+              </Button>
+            ) : ''}
+          </NonEmptyAlbums>
+        );
+      }
+  }, [albums, photoLinks, photosPage]);
 
   return (
     <StyledAlbumsPage>
@@ -78,7 +127,7 @@ const EmptyAlbums = styled.div`
   margin-left: -15px;
   padding: 0 15px 40px;
   border-bottom: 5px solid #F4F4F4;
-  
+
   @media (min-width: 420px) {
     width: 100%;
     margin-left: 0;
@@ -102,9 +151,10 @@ const BrowseArtPrints = styled.div`
   padding-bottom: 60px;
 `;
 
-const AlbumsList = styled.ul`
+const AlbumsList = styled.ul<{ withMarginBottom?: boolean }>`
   display: flex;
   grid-gap: 5px;
+  ${({ withMarginBottom }) => withMarginBottom ? 'margin-bottom: 40px' : ''}
   margin-left: -15px;
   padding: 0 15px;
   width: calc(100% + 30px);
@@ -115,17 +165,48 @@ const AlbumsList = styled.ul`
   ::-webkit-scrollbar {
     display: none;
   }
+
+  @media (min-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+    ${({ withMarginBottom }) => withMarginBottom ? 'margin-bottom: 100px' : ''}
+  }
 `;
 
 const AlbumsListItem = styled.li`
   width: 167px;
   height: 215px;
   flex-shrink: 0;
-  
+
   img {
     height: 100%;
     object-fit: cover;
     border-radius: 20px;
+  }
+
+  @media (max-width: 420px) {
+    width: 110px;
+    height: 140px;
+  }
+`;
+
+const NonEmptyAlbums = styled.div`
+  margin-bottom: 100px;
+`;
+
+const PhotoList = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 40px;
+
+  img {
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+  }
+
+  @media (min-width: 768px) {
+    margin-bottom: 100px;
   }
 `;
 

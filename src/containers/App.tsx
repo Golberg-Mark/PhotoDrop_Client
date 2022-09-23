@@ -95,7 +95,11 @@ const GlobalContainer = styled.section`
   margin: 0 auto;
   padding: 0 15px;
   max-width: 1440px;
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
+  
+  @media (min-width: 768px) {
+    padding: 0 120px;
+  }
 `;
 
 export default App;
