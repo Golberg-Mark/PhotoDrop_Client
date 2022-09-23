@@ -51,7 +51,7 @@ const Header = () => {
         <Back>
           {getBackArrow()}
         </Back>
-        <LogoIcon>
+        <LogoIcon to="/">
           {window && window.innerWidth < 640 ? <LogoMobile /> : <Logo />}
         </LogoIcon>
         <Profile to="/profile">
@@ -87,7 +87,8 @@ const Back = styled.div`
   width: 8px;
 `;
 
-const LogoIcon = styled.div`
+const LogoIcon = styled(Link)`
+  display: block;
   margin: 0 auto;
 `;
 
