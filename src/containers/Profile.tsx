@@ -17,14 +17,12 @@ const Profile = () => {
   const email = tempEmail || user?.email;
 
   return user ? (
-    <>
-      <Routes>
-        <Route path="/" element={<ProfilePage />} />
-        <Route path="/changeName" element={<SetName isChanging userName={name} />} />
-        <Route path="/settings/*" element={<Settings userPhone={user.number} userEmail={email} />} />
-        <Route path="/notifications" element={<div>Notifications</div>} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<ProfilePage />} />
+      <Route path="/changeName" element={<SetName isChanging userName={name} />} />
+      <Route path="/settings/*" element={<Settings userPhone={user.number} userEmail={email} />} />
+      <Route path="/notifications" element={<div>Notifications</div>} />
+    </Routes>
   ) : <Loader />;
 };
 

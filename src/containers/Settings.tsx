@@ -14,13 +14,11 @@ interface Props {
 
 const Settings: React.FC<Props> = ({ userPhone, userEmail, userName }) => {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<SettingsPage userPhone={userPhone} userEmail={userEmail} />} />
-        <Route path="/changePhone/*" element={<Auth isItChanging />} />
-        <Route path="/changeEmail" element={<SetEmail isChanging userEmail={userEmail} userName={userName} />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<SettingsPage userPhone={userPhone} userEmail={userEmail} />} />
+      <Route path="/changePhone/*" element={<Auth isItChanging />} />
+      <Route path="/changeEmail" element={<SetEmail isChanging userEmail={userEmail} userName={userName} />} />
+    </Routes>
   );
 };
 
