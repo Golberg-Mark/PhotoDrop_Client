@@ -15,6 +15,7 @@ import Albums from '@/containers/Albums';
 import Auth from '@/containers/Auth';
 import Selfie from '@/containers/Selfie';
 import Profile from '@/containers/Profile';
+import Footer from '@/components/Footer';
 
 const GlobalStyle = createGlobalStyle`
   ${normalize};
@@ -82,6 +83,7 @@ const App: React.FC = () => {
         </Routes>
         {errorMessage ? <ErrorModalWindow error={errorMessage} /> : ''}
       </GlobalContainer>
+      <Footer />
     </>
   );
 };
