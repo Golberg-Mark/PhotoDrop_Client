@@ -9,6 +9,7 @@ import { selectAlbums } from '@/store/selectors/userSelector';
 import { getAlbumsAction, userActions } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
 import Button from '@/components/Button';
+import AlbumsListItem from '@/components/Albums/AlbumsListItem';
 
 const AlbumsPage = () => {
   const [photosPage, setPhotosPage] = useState(1);
@@ -37,7 +38,7 @@ const AlbumsPage = () => {
   }, [albums]);
 
   const getContent = useCallback(() => {
-      if (albums === null) return <Loader />;
+      if (albums === null) return <Loader marginTop={-20} />;
       if (albums.length === 0) {
         const artPrintsList = ['FirstArtPrint.png', 'SecondArtPrint.png', 'ThirdArtPrint.png'];
 
@@ -60,9 +61,7 @@ const AlbumsPage = () => {
               </PageTitle>
               <AlbumsList>
                 {artPrintsList.map((el) => (
-                  <AlbumsListItem key={el}>
-                    <img src={`/assets/${el}`} alt="Art Print"/>
-                  </AlbumsListItem>
+                  <AlbumsListItem key={el} source={`/assets/${el}`} altText="Art Print" />
                 ))}
               </AlbumsList>
             </BrowseArtPrints>
@@ -84,9 +83,7 @@ const AlbumsPage = () => {
             <AlbumsList withMarginBottom>
               {albums.map((el, i) => (
                 <Link to={`/albums/${el.name}`} key={`${el.name + i}`}>
-                  <AlbumsListItem>
-                    <img src={el.photos[0].url} alt={el.name} />
-                  </AlbumsListItem>
+                  <AlbumsListItem albumName={el.name} source={el.photos[0].url} altText={el.name} />
                 </Link>
               ))}
             </AlbumsList>
@@ -118,7 +115,7 @@ const AlbumsPage = () => {
 
 const StyledAlbumsPage = styled.div`
   padding-top: 20px;
-  min-height: 100%;
+  min-height: inherit;
 `;
 
 const EmptyAlbums = styled.div`
@@ -154,7 +151,7 @@ const BrowseArtPrints = styled.div`
 const AlbumsList = styled.ul<{ withMarginBottom?: boolean }>`
   display: flex;
   grid-gap: 5px;
-  ${({ withMarginBottom }) => withMarginBottom ? 'margin-bottom: 40px' : ''}
+  ${({ withMarginBottom }) => withMarginBottom ? 'margin-bottom: 40px;' : ''}
   margin-left: -15px;
   padding: 0 15px;
   width: calc(100% + 30px);
@@ -170,24 +167,7 @@ const AlbumsList = styled.ul<{ withMarginBottom?: boolean }>`
     width: 100%;
     margin-left: 0;
     padding: 0;
-    ${({ withMarginBottom }) => withMarginBottom ? 'margin-bottom: 100px' : ''}
-  }
-`;
-
-const AlbumsListItem = styled.li`
-  width: 167px;
-  height: 215px;
-  flex-shrink: 0;
-
-  img {
-    height: 100%;
-    object-fit: cover;
-    border-radius: 20px;
-  }
-
-  @media (max-width: 420px) {
-    width: 110px;
-    height: 140px;
+    ${({ withMarginBottom }) => withMarginBottom ? 'margin-bottom: 100px;' : ''}
   }
 `;
 
