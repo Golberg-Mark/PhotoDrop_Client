@@ -53,12 +53,13 @@ const getBalls = ({ countBalls, frontColor, backColor, size }: BallsAnimationPro
 export const ImpulseSpinner = ({
   size = 40,
   frontColor = "#3300CC",
-  backColor = "#E8E9ED"
+  backColor = "#E8E9ED",
+  marginTop = 0
 }) => {
   const countBalls = 3;
 
   return (
-    <Container>
+    <Container style={{ marginTop: marginTop }}>
       <Wrapper size={size}>
         {getBalls({
           countBalls,
@@ -76,7 +77,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  min-height: inherit;
 `;
 
 const Wrapper = styled.div<{ size: number }>`
