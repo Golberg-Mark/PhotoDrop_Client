@@ -29,6 +29,11 @@ export const selectAlbums: Selector<State, Album[] | null> = createSelector(
   ({ albums }) => albums
 );
 
+export const selectSelectedAlbum: Selector<State, Album | null> = createSelector(
+  userState,
+  ({ selectedAlbum }) => selectedAlbum
+);
+
 export const selectIsLoggedIn: Selector<State, boolean> = createSelector(
   userState,
   ({ isLoggedIn }) => isLoggedIn

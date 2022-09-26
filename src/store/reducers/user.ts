@@ -34,6 +34,7 @@ export interface Album {
 interface UserState {
   user: User | null,
   albums: Album[] | null,
+  selectedAlbum: Album | null,
   tempUserPhoto: string | null,
   tempUserName: string | null,
   tempUserEmail: string | null,
@@ -45,6 +46,7 @@ interface UserState {
 const InitialState: UserState = {
   user: null,
   albums: null,
+  selectedAlbum: null,
   tempUserPhoto: null,
   tempUserName: null,
   tempUserEmail: null,
@@ -72,6 +74,10 @@ export class UserReducer extends ImmerReducer<UserState> {
 
   public setAlbums(value: Album[] | null) {
     this.draftState.albums = value;
+  }
+
+  public setSelectedAlbum(value: Album | null) {
+    this.draftState.selectedAlbum = value;
   }
 
   public setIsLoggedIn(value: boolean) {

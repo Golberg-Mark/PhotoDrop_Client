@@ -18,7 +18,8 @@ export type UserActions = ReturnType<typeof userActions.setUser>
   | ReturnType<typeof userActions.setTempUserPhoto>
   | ReturnType<typeof userActions.setTempUserName>
   | ReturnType<typeof userActions.setTempUserEmail>
-  | ReturnType<typeof userActions.setAlbums>;
+  | ReturnType<typeof userActions.setAlbums>
+  | ReturnType<typeof userActions.setSelectedAlbum>;
 
 export const getMeAction  = (): AsyncAction => async (
   dispatch,
@@ -149,6 +150,21 @@ export const getAlbumsAction = (): AsyncAction => async (
     const albums = await mainApiProtected.getAlbums();
 
     dispatch(userActions.setAlbums(albums));
+  } catch (error: any) {
+    console.log(error);
+    if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));
+  }
+};
+
+export const getSelectedAlbumAction = (albumName: string): AsyncAction => async (
+  dispatch,
+  _,
+  { mainApiProtected }
+) => {
+  try {
+    const album = await mainApiProtected.getAlbum(albumName);
+
+    dispatch(userActions.setSelectedAlbum(album));
   } catch (error: any) {
     console.log(error);
     if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));

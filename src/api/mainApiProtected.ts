@@ -21,4 +21,6 @@ export class MainApiProtected extends HttpClientProtected {
   public updateClient = (body: UpdateUser) => this.instance.put<{ message: string }>('/client', body);
 
   public getAlbums = () => this.instance.get<Album[]>('/albums');
+
+  public getAlbum = (albumName: string) => this.instance.get<Album>(`/albums/${albumName}`);
 }

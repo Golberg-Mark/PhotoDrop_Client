@@ -45,8 +45,10 @@ const Header = () => {
   const selfie =  tempPhoto || user?.selfie;
   const isWithSelfie = pathname === PathNames.MAIN_PAGE && selfie;
 
+  const isHeaderVisible = !(new RegExp(/\/albums\/.*/).test(pathname));
+
   return (
-    <StyledHeader>
+    <StyledHeader style={{ display: isHeaderVisible ? 'block' : 'none'}} >
       <Container>
         <Back>
           {getBackArrow()}
