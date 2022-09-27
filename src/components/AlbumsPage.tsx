@@ -71,7 +71,7 @@ const AlbumsPage = () => {
         let photos = [];
 
         for (let i = 0; i < photosPage * 3; i++) {
-          if (photoLinks[i]) photos.push(<img src={photoLinks[i]} alt="Your Photo"/>);
+          if (photoLinks[i]) photos.push(<img src={photoLinks[i]} alt="Your Photo" key={photoLinks[i]} />);
           else break;
         }
 
