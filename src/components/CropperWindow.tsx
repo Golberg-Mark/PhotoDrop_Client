@@ -53,7 +53,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
   };
 
   return path ? (
-    <StyledCropperWindow onScroll={evt => evt.preventDefault()}>
+    <StyledCropperWindow>
       <div>
         <WindowHeader>
           <Close onClick={hide}>
@@ -99,7 +99,7 @@ const StyledCropperWindow = styled.div`
   justify-content: space-between;
   padding: 22px 15px 40px;
   width: 100vw;
-  min-height: -webkit-fill-available;
+  height: 100vh;
   background-color: #262626;
   
   .reactEasyCrop_Container {
