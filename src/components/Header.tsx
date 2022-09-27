@@ -83,14 +83,15 @@ const StyledHeader = styled.header`
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 1fr;
   align-items: center;
   margin: 0 auto;
-  padding: 20px 15px 18px;
+  padding: 10px 15px 10px;
   max-width: 1440px;
   width: 100%;
 
   @media (min-width: 640px) {
-    padding: 19px 40px;
+    padding: 10px 40px;
   }
 `;
 
@@ -101,6 +102,7 @@ const Back = styled.div`
 const LogoIcon = styled(Link)`
   display: block;
   margin: 0 auto;
+  height: 22px;
 `;
 
 const Profile = styled(Link)`
@@ -112,6 +114,7 @@ const Profile = styled(Link)`
   border-radius: 50%;
   background-color: transparent;
   cursor: pointer;
+  align-self: center;
 `;
 
 const ProfilePhoto = styled.img`
