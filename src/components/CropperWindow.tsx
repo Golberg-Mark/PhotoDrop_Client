@@ -53,7 +53,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
   };
 
   return path ? (
-    <StyledCropperWindow>
+    <StyledCropperWindow onScroll={evt => evt.preventDefault()}>
       <div>
         <WindowHeader>
           <Close onClick={hide}>
