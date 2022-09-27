@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -10,9 +10,7 @@ import useInput from '@/hooks/useInput';
 import formatPhoneNumber from '@/utils/formatPhoneNumber';
 import { userActions } from '@/store/actions/userActions';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement>{}
-
-const PhoneInput: React.FC<Props> = (props) => {
+const PhoneInput = () => {
   const [isCountriesVisible, toggleIsCountriesVisible] = useToggle();
   const [selectedCountry, setSelectedCountry] = useState(0);
   const [number, setNumber] = useInput(countryList[0].code, 15, 'phone');
@@ -40,7 +38,7 @@ const PhoneInput: React.FC<Props> = (props) => {
         countryCode: countryList[selectedCountry].code,
         phoneNumber: numberWithoutCountry
       }));
-    }
+    } else dispatch(userActions.setAuthNumber(null));
   }, [number]);
 
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
