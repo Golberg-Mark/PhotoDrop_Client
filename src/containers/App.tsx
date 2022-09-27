@@ -85,7 +85,7 @@ const App: React.FC = () => {
           <Route path="/auth/*" element={<Auth />} />
           <Route path="/selfie" element={<ProtectedRouter><Selfie /></ProtectedRouter>} />
           <Route path="/profile/*" element={<ProtectedRouter><Profile /></ProtectedRouter>} />
-          <Route path="/privacy" element={<ProtectedRouter><PrivacyPage /></ProtectedRouter>} />
+          <Route path="/privacy" element={<PrivacyPage />} />
         </Routes>
         {errorMessage ? <ErrorModalWindow error={errorMessage} /> : ''}
       </GlobalContainer>

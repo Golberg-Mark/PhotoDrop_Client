@@ -12,6 +12,7 @@ import { selectErrorMessage } from '@/store/selectors/errorSelector';
 import Loader from '@/components/Loader';
 import useKeyPress from '@/hooks/useKeyPress';
 import { PhoneRequest } from '@/api/mainApi';
+import { Link } from 'react-router-dom';
 
 interface Props {
   isItChanging?: boolean
@@ -64,7 +65,10 @@ const AuthFirstStep: React.FC<Props> = ({ isItChanging }) => {
         to the number provided. Text “STOP” to 89203 to opt out.
       </AdditionalInfo>
       <AdditionalInfo>
-        By continuing, you indicate that you have read and agree to our Terms of Use & Privacy Policy
+        {`By continuing, you indicate that you have read and agree to our `}
+        <StyledLink to="/terms">Terms of Use</StyledLink>
+        {` & `}
+        <StyledLink to='/privacy'>Privacy Policy</StyledLink>
       </AdditionalInfo>
     </Container>
   );
@@ -87,6 +91,13 @@ const Phone = styled.div`
 
 const AdditionalInfo = styled.p`
   color: #6D6D6D;
+`;
+
+const StyledLink = styled(Link)`
+  :hover {
+    color: #3300CC;
+    text-underline-color: #3300CC;
+  }
 `;
 
 export default AuthFirstStep;
