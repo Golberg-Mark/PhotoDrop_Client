@@ -99,7 +99,7 @@ const StyledCropperWindow = styled.div`
   justify-content: space-between;
   padding: 22px 15px 40px;
   width: 100vw;
-  height: 100vh;
+  min-height: -webkit-fill-available;
   background-color: #262626;
   
   .reactEasyCrop_Container {
