@@ -7,6 +7,8 @@ import PhoneIcon from '@/icons/PhoneIcon';
 import EmailIcon from '@/icons/EmailIcon';
 import { PhoneNumber } from '@/store/reducers/user';
 import formatPhoneNumber from '@/utils/formatPhoneNumber';
+import { useDispatch } from 'react-redux';
+import { userActions } from '@/store/actions/userActions';
 
 interface Props {
   userPhone: PhoneNumber,
@@ -14,6 +16,7 @@ interface Props {
 }
 
 const SettingsPage: React.FC<Props> = ({ userPhone, userEmail = '' }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const settings = [
@@ -21,7 +24,10 @@ const SettingsPage: React.FC<Props> = ({ userPhone, userEmail = '' }) => {
       title: 'Phone',
       currentValue: formatPhoneNumber(userPhone.countryCode + userPhone.phoneNumber, userPhone.countryCode),
       icon: <PhoneIcon />,
-      action: () => navigate('/profile/settings/changePhone')
+      action: () => {
+        dispatch(userActions.setAuthNumber(null));
+        navigate('/profile/settings/changePhone');
+      }
     },
     {
       title: 'Email',

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import PhoneInput from '@/components/PhoneInput';
 import Button from '@/components/Button';
 import { selectAuthNumber, selectUser } from '@/store/selectors/userSelector';
-import { createAccountAction } from '@/store/actions/userActions';
+import { createAccountAction, userActions } from '@/store/actions/userActions';
 import PageTitle from '@/components/PageTitle';
 import useToggle from '@/hooks/useToggle';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
@@ -58,7 +58,7 @@ const AuthFirstStep: React.FC<Props> = ({ isItChanging }) => {
         disabled={!authNumber}
         onClick={createAccountHandler}
       >
-        {isLoading ? <Loader /> : 'Create account'}
+        {isLoading ? <Loader /> : isItChanging ? 'Next' : 'Create account'}
       </Button>
       <AdditionalInfo style={{ marginBottom: '38px' }}>
         By proceeding, you consent to get WhatsApp or SMS messages, from PhotoDrop and its affiliates
