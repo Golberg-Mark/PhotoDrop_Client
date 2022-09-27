@@ -22,7 +22,7 @@ const ThanksPage = () => {
         You can now download, share, post, and print your hi-res, watermark-free, glorious memories.
       </Possibilities>
       <img src={'/assets/Thanks.png'} alt="Thank you image"/>
-      <StyledLink to="/">
+      <StyledLink to="/" replace>
         See photos
       </StyledLink>
     </StyledThanksPage>

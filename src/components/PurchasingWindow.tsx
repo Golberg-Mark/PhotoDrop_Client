@@ -54,15 +54,15 @@ const PurchasingWindow: React.FC<Props> = ({ hide, albumName }) => {
         </RadioWrapper>
         <RadioWrapper checked={whatIsPurchasing === 'album'}>
           <Radio
-            name="All 5 photos from Brooklyn Bridge"
+            name={`All 5 photos from ${albumName}`}
             onClick={() => setWhatIsPurchasing('album')}
             checked={whatIsPurchasing === 'album'}
           />
           5$
         </RadioWrapper>
-        <Button onClick={submitPurchasing}>
+        <StyledButton onClick={submitPurchasing}>
           {isLoading ? <Loader /> : 'Unlock all photos'}
-        </Button>
+        </StyledButton>
       </StyledPurchasingWindow>
     </Background>
   );
@@ -84,6 +84,7 @@ const StyledPurchasingWindow = styled.div`
     bottom: unset;
     left: 50%;
     padding: 20px 20px 20px;
+    max-width: 420px;
     transform: translate(-50%, -50%);
     border-radius: 20px;
   }
@@ -119,6 +120,11 @@ const RadioWrapper = styled.div<{ checked: boolean, disabled?: boolean }>`
   margin-bottom: 20px;
   font-weight: 500;
   color: ${({ checked, disabled }) => disabled ? '#BBB' : checked ? '#3300CC' : 'inherit'}
+`;
+
+const StyledButton = styled(Button)`
+  display: block;
+  margin: 0 auto;
 `;
 
 export default PurchasingWindow;
