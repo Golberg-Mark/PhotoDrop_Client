@@ -7,7 +7,7 @@ import ClimateNeutralLogo from '@/icons/ClimateNeutralLogo';
 
 const Footer = () => {
   const { pathname } = useLocation();
-  const regexp = new RegExp(/^\/albums\/.*$/);
+  const regexp = new RegExp(/\/albums\/(?!thanks$)+.*/);
 
   return pathname === '/' || regexp.test(pathname) ? (
     <StyledFooter>
@@ -97,12 +97,15 @@ const Description = styled.p`
 
 const Button = styled.button`
   padding: 18px 50px;
-  max-width: 300px;
   width: 100%;
   border: 1px solid #fff;
   border-radius: 50px;
   background-color: transparent;
   cursor: pointer;
+  
+  @media (min-width: 420px) {
+    max-width: 300px;
+  }
 `;
 
 const AdditionalInformation = styled.div`

@@ -19,7 +19,7 @@ const ProtectedRouter: React.FC<any> = ({ children }: any) => {
     return <Navigate to="/auth" />
   }
 
-  return user ? children : <Loader />;
+  return user ? children : <div style={{ minHeight: '100vh' }}><Loader /></div>;
 };
 
 export default ProtectedRouter;

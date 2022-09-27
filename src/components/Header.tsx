@@ -12,7 +12,8 @@ import { selectTempUserPhoto, selectUser } from '@/store/selectors/userSelector'
 enum PathNames {
   AUTH = '/auth/verify',
   AUTH2 = '/selfie',
-  MAIN_PAGE = '/'
+  MAIN_PAGE = '/',
+  THANKS_PAGE = '/albums/thanks'
 }
 
 const Header = () => {
@@ -43,9 +44,17 @@ const Header = () => {
   };
 
   const selfie =  tempPhoto || user?.selfie;
-  const isWithSelfie = pathname === PathNames.MAIN_PAGE && selfie;
+  let isWithSelfie;
 
-  const isHeaderVisible = !(new RegExp(/\/albums\/.*/).test(pathname));
+  switch (pathname) {
+    case PathNames.MAIN_PAGE: case PathNames.THANKS_PAGE: {
+      if (selfie) isWithSelfie = true;
+      break;
+    }
+    default: isWithSelfie = false;
+  }
+
+  const isHeaderVisible = !(new RegExp(/\/albums\/(?!thanks$)+.*/).test(pathname));
 
   return (
     <StyledHeader style={{ display: isHeaderVisible ? 'block' : 'none'}} >

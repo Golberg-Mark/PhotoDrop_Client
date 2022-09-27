@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { getSelectedAlbumAction } from '@/store/actions/userActions';
+import { getSelectedAlbumAction, userActions } from '@/store/actions/userActions';
 import { selectSelectedAlbum } from '@/store/selectors/userSelector';
 import Loader from '@/components/Loader';
 import BackIcon from '@/icons/BackIcon';
@@ -11,16 +11,23 @@ import PageTitle from '@/components/PageTitle';
 import getMonth from '@/utils/getMonth';
 import Button from '@/components/Button';
 import { Link } from 'react-router-dom';
+import useToggle from '@/hooks/useToggle';
+import PurchasingWindow from '@/components/PurchasingWindow';
 
 const SelectedAlbumPage = () => {
+  const [isPurchasingVisible, toggleIsPurchasingVisible] = useToggle();
   const { albumName } = useParams();
   const navigate = useNavigate();
   const selectedAlbum = useSelector(selectSelectedAlbum);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (albumName) dispatch(getSelectedAlbumAction(albumName));
-  }, [albumName]);
+    if (albumName && !selectedAlbum) dispatch(getSelectedAlbumAction(albumName));
+
+    return () => {
+      dispatch(userActions.setSelectedAlbum(null));
+    }
+  }, []);
 
   let albumInfo = '';
   let photosStr = '';
@@ -33,43 +40,44 @@ const SelectedAlbumPage = () => {
     albumInfo = `${getMonth(date.getMonth())} ${date.getDate()}, ${date.getFullYear()} • `;
   }
 
+  const isUnlocked = selectedAlbum?.photos[0].watermark;
+
   return selectedAlbum ? (
-    <>
-      <StyledSelectedAlbumPage>
-        <AlbumHeader>
-          <BackIconWrapper>
-            <BackIcon onClick={() => navigate(-1)} />
-          </BackIconWrapper>
-          <AllAlbumInfo>
-            <PageTitle textAlign="left">
-              {selectedAlbum.name}
-            </PageTitle>
-            <Info>
-              {albumInfo}
-              <span>{photosStr}</span>
-            </Info>
-          </AllAlbumInfo>
-          <UnlockYourPhoto to="/">Unlock your photos</UnlockYourPhoto>
-        </AlbumHeader>
-        <PhotoList>
-          {selectedAlbum.photos.map((el, i) => (
-            <img key={i} src={el.url} alt="Your Photo"/>
-          ))}
-        </PhotoList>
-        <Button style={{ display: 'block', margin: '0 auto' }}>
+    <StyledSelectedAlbumPage>
+      <AlbumHeader>
+        <BackIconWrapper>
+          <BackIcon onClick={() => navigate(-1)} />
+        </BackIconWrapper>
+        <AllAlbumInfo>
+          <PageTitle textAlign="left">
+            {selectedAlbum.name}
+          </PageTitle>
+          <Info>
+            {albumInfo}
+            <span>{photosStr}</span>
+          </Info>
+        </AllAlbumInfo>
+        {isUnlocked ? <UnlockYourPhoto onClick={toggleIsPurchasingVisible}>Unlock your photos</UnlockYourPhoto> : ''}
+      </AlbumHeader>
+      <PhotoList>
+        {selectedAlbum.photos.map((el, i) => (
+          <img key={i} src={el.url} alt="Your Photo"/>
+        ))}
+      </PhotoList>
+      {isUnlocked ? (
+        <StyledButton onClick={toggleIsPurchasingVisible}>
           Unlock your photos
-        </Button>
-      </StyledSelectedAlbumPage>
-    </>
-  ) : <Loader />;
+        </StyledButton>
+      ) : null}
+      {isPurchasingVisible ? (
+        <PurchasingWindow hide={toggleIsPurchasingVisible} albumName={selectedAlbum.name} />
+      ) : ''}
+    </StyledSelectedAlbumPage>
+  ) : <StyledSelectedAlbumPage><Loader /></StyledSelectedAlbumPage>;
 };
 
 const StyledSelectedAlbumPage = styled.div`
-  padding-bottom: 40px;
-  
-  @media (min-width: 768px) {
-    padding-bottom: 100px;
-  }
+  min-height: 100vh;
 `;
 
 const AlbumHeader = styled.div`
@@ -135,17 +143,20 @@ const Info = styled.div`
   }
 `;
 
-const UnlockYourPhoto = styled(Link)`
+const UnlockYourPhoto = styled(Button)`
   display: none;
   
   @media (min-width: 768px) {
     display: block;
     align-self: flex-end;
+    padding: 0;
+    width: auto;
+    height: auto;
     font-size: 18px;
     color: #3300CC;
     font-weight: 500;
-    text-decoration: none;
     text-align: right;
+    background-color: transparent;
   }
 `;
 
@@ -163,6 +174,15 @@ const PhotoList = styled.div`
   @media (min-width: 768px) {
     margin: 0 0 100px 0;
     width: 100%;
+  }
+`;
+
+const StyledButton = styled(Button)`
+  display: block;
+  margin: 0 auto 40px;
+  
+  @media (min-width: 480px) {
+    margin: 0 auto 100px;
   }
 `;
 

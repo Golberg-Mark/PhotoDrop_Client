@@ -23,4 +23,6 @@ export class MainApiProtected extends HttpClientProtected {
   public getAlbums = () => this.instance.get<Album[]>('/albums');
 
   public getAlbum = (albumName: string) => this.instance.get<Album>(`/albums/${albumName}`);
+
+  public removeWatermark = (item: string) => this.instance.delete<{ message: string }>(`/removeWatermark/${item}`);
 }

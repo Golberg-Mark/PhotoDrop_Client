@@ -42,6 +42,10 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: 'FuturaPT', 'Arial', sans-serif;
     color: #262626;
+    
+    ::after, ::before {
+      box-sizing: border-box;
+    }
   }
   
   body {

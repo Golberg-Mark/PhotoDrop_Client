@@ -115,7 +115,7 @@ const AlbumsPage = () => {
 
 const StyledAlbumsPage = styled.div`
   padding-top: 20px;
-  min-height: inherit;
+  min-height: 100vh;
 `;
 
 const EmptyAlbums = styled.div`

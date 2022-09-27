@@ -1,12 +1,13 @@
 import { createActionCreators } from 'immer-reducer';
 import axios from 'axios';
-import { push } from '@lagunovsky/redux-react-router';
+import { push, replace } from '@lagunovsky/redux-react-router';
 import { Buffer } from 'buffer';
 
 import { PhoneNumber, UpdateUser, User, UserReducer } from '@/store/reducers/user';
 import { AsyncAction } from '@/store/actions/common';
 import { errorActions } from '@/store/actions/errorActions';
 import { PhoneRequest } from '@/api/mainApi';
+import { HandleToggle } from '@/hooks/useToggle';
 
 export const userActions = createActionCreators(UserReducer);
 
@@ -165,6 +166,29 @@ export const getSelectedAlbumAction = (albumName: string): AsyncAction => async 
     const album = await mainApiProtected.getAlbum(albumName);
 
     dispatch(userActions.setSelectedAlbum(album));
+  } catch (error: any) {
+    console.log(error);
+    if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));
+  }
+};
+
+interface IRemoveWatermark {
+  albumName: string,
+  photoName?: string,
+  callback: HandleToggle
+}
+
+export const removeWatermarkAction = ({ albumName, photoName, callback }: IRemoveWatermark): AsyncAction => async (
+  dispatch,
+  _,
+  { mainApiProtected }
+) => {
+  try {
+    const { message } = await mainApiProtected.removeWatermark(photoName || albumName);
+
+    if (message) {
+      dispatch(push('/albums/thanks', { albumName }));
+    }
   } catch (error: any) {
     console.log(error);
     if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));
