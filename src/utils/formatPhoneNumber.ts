@@ -1,5 +1,5 @@
 const formatPhoneNumber = (phoneNumber: string, countryCode: string) => {
-  let number = phoneNumber.slice(countryCode.length - 1);
+  let number = phoneNumber.slice(phoneNumber[0] === '+' ? countryCode.length : countryCode.length - 1);
 
   number = number.split('').map((el, i) => {
     switch (i) {
