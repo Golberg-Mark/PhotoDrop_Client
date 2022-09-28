@@ -10,10 +10,17 @@ import { getAlbumsAction, userActions } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
 import Button from '@/components/Button';
 import AlbumsListItem from '@/components/Albums/AlbumsListItem';
+import PhotoViewer from '@/components/PhotoViewer';
+
+interface PhotoData {
+  url: string,
+  album?: string
+}
 
 const AlbumsPage = () => {
   const [photosPage, setPhotosPage] = useState(1);
-  const [photoLinks, setPhotoLinks] = useState<string[]>([]);
+  const [photoLinks, setPhotoLinks] = useState<PhotoData[]>([]);
+  const [selectedPhoto, setSelectedPhoto] = useState<PhotoData | null>(null);
   const albums = useSelector(selectAlbums);
   const dispatch = useDispatch();
 
@@ -27,10 +34,15 @@ const AlbumsPage = () => {
 
   useEffect(() => {
     if (albums?.length) {
-      let photos: string[] = [];
+      let photos: PhotoData[] = [];
 
       albums.forEach((album) => {
-        album.photos.forEach((photo) => photos.push(photo.url));
+        album.photos.forEach((photo) => {
+          photos.push({
+            url: photo.url,
+            album: photo.watermark ? album.name : undefined
+          })
+        });
       });
 
       setPhotoLinks(photos);
@@ -71,7 +83,14 @@ const AlbumsPage = () => {
         let photos = [];
 
         for (let i = 0; i < photosPage * 3; i++) {
-          if (photoLinks[i]) photos.push(<img src={photoLinks[i]} alt="Your Photo" key={photoLinks[i]} />);
+          if (photoLinks[i]) photos.push(
+            <img
+              key={photoLinks[i].url}
+              src={photoLinks[i].url}
+              alt="Your Photo"
+              onClick={() => setSelectedPhoto(photoLinks[i])}
+            />
+          );
           else break;
         }
 
@@ -109,6 +128,13 @@ const AlbumsPage = () => {
   return (
     <StyledAlbumsPage>
       {getContent()}
+      {selectedPhoto ? (
+        <PhotoViewer
+          hide={() => setSelectedPhoto(null)}
+          photo={selectedPhoto.url}
+          albumName={selectedPhoto.album}
+        />
+      ) : ''}
     </StyledAlbumsPage>
   );
 };
@@ -183,6 +209,7 @@ const PhotoList = styled.div`
   img {
     object-fit: cover;
     aspect-ratio: 1 / 1;
+    cursor: pointer;
   }
 
   @media (min-width: 768px) {

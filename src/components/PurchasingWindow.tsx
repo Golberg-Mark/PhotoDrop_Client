@@ -77,7 +77,7 @@ const StyledPurchasingWindow = styled.div`
   border-radius: 20px 20px 0 0;
   background-color: #fff;
   cursor: default;
-  z-index: 1001;
+  z-index: 1000;
   
   @media (min-width: 480px) {
     top: 50%;
