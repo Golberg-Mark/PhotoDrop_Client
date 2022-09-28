@@ -13,27 +13,14 @@ interface Props {
   albumName?: string
 }
 
-interface PhotoObject {
-  url: string,
-  file: Blob
-}
-
 const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
-  const [photoObject, setPhotoObject] = useState<PhotoObject>();
+  const [photoObject, setPhotoObject] = useState<string>();
   const [isPurchasingVisible, toggleIsPurchasingVisible] = useToggle();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const getPhoto = async () => {
-      let obj: PhotoObject;
-
-      return await fetch(photo).then(response => {
-        return response.blob();
-      }).then(result => {
-        obj.file = result;
-        obj.url = URL.createObjectURL(result);
-        return obj;
-      });
+      return await fetch(photo).then(response => response.blob()).then(result => URL.createObjectURL(result));
     }
 
     getPhoto().then(result => setPhotoObject(result));
@@ -42,7 +29,7 @@ const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
   const download = () => {
     if (photoObject) {
       const a = document.createElement('a');
-      a.href = photoObject.url;
+      a.href = photoObject;
       a.download = 'Photo';
       document.body.appendChild(a);
       a.click();
