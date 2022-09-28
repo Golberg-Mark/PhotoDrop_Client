@@ -66,7 +66,7 @@ const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
                 Share
               </IconWrapper>
             ) : ''}
-            <Button alternativeStyle>
+            <Button alternativeStyle onClick={() => window.open(photo)}>
               See in frame
             </Button>
           </>
