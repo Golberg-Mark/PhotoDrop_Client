@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import useToggle from '@/hooks/useToggle';
 import Background from '@/components/Background';
-import { countryList } from '@/utils/countryList';
+import { CountryFromList, countryList } from '@/utils/countryList';
 import DownIcon from '@/icons/DownIcon.svg';
 import useInput from '@/hooks/useInput';
 import formatPhoneNumber from '@/utils/formatPhoneNumber';
@@ -12,24 +12,24 @@ import { userActions } from '@/store/actions/userActions';
 
 const PhoneInput = () => {
   const [isCountriesVisible, toggleIsCountriesVisible] = useToggle();
-  const [selectedCountry, setSelectedCountry] = useState(0);
+  const [selectedCountry, setSelectedCountry] = useState<CountryFromList>(countryList[0]);
   const [searchValue, setSearchValue] = useInput('', 20);
   const [number, setNumber] = useInput(countryList[0].code, 15, 'phone');
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setNumber(countryList[selectedCountry].code);
+    setNumber(selectedCountry.code);
   }, [selectedCountry]);
 
   useEffect(() => {
     const countryRegexp = new RegExp(/^(\+\d{0,4})$/);
     const numberRegexp = new RegExp(/^(\d{9,10})$/);
-    const numberWithoutCountry = number.slice(countryList[selectedCountry].code.length - 1);
+    const numberWithoutCountry = number.slice(selectedCountry.code.length - 1);
 
-    if (countryRegexp.test(countryList[selectedCountry].code) && numberRegexp.test(numberWithoutCountry)) {
+    if (countryRegexp.test(selectedCountry.code) && numberRegexp.test(numberWithoutCountry)) {
       dispatch(userActions.setAuthNumber({
-        countryCode: countryList[selectedCountry].code,
+        countryCode: selectedCountry.code,
         phoneNumber: numberWithoutCountry
       }));
     } else dispatch(userActions.setAuthNumber(null));
@@ -38,7 +38,7 @@ const PhoneInput = () => {
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target;
 
-    if (value.length >= countryList[selectedCountry].code.length) {
+    if (value.length >= selectedCountry.code.length) {
       setNumber(value);
     }
   };
@@ -59,13 +59,13 @@ const PhoneInput = () => {
     <StyledPhoneInput>
       <CountrySelector onClick={toggleIsCountriesVisible}>
         <img
-          src={countryList[selectedCountry].src}
-          alt={countryList[selectedCountry].country}
+          src={selectedCountry.src}
+          alt={selectedCountry.country}
         />
       </CountrySelector>
       <Input
         type="tel"
-        value={formatPhoneNumber(number, countryList[selectedCountry].code)}
+        value={formatPhoneNumber(number, selectedCountry.code)}
         onChange={onInputChange}
       />
       {isCountriesVisible ? (
@@ -80,9 +80,9 @@ const PhoneInput = () => {
             {filteredCounties.map((el, i) => (
               <CountryListItem
                 key={el.iso}
-                isSelected={i === selectedCountry}
+                isSelected={el.code === selectedCountry.code}
                 onClick={() => {
-                  setSelectedCountry(i);
+                  setSelectedCountry(el);
                   setSearchValue('');
                   toggleIsCountriesVisible(false);
                 }}
