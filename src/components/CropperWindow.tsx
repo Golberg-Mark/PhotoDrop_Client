@@ -78,6 +78,11 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
           showGrid={false}
           onCropComplete={cropComplete}
           cropSize={{ width: 285, height: 285 }}
+          onMediaLoaded={({ width, height }) => {
+            const smallerSide = width > height ? height : width;
+
+            setZoom(285 / smallerSide);
+          }}
         />
       </div>
       <Buttons>
