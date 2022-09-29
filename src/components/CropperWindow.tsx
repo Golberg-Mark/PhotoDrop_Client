@@ -8,6 +8,7 @@ import getCroppedImg from '@/utils/getCroppedImage';
 import { useDispatch } from 'react-redux';
 import { uploadSelfieAction } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
+import useModalWindow from '@/hooks/useModalWindow';
 
 interface Props {
   hide: HandleToggle,
@@ -23,6 +24,8 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
   const dispatch = useDispatch();
+
+  useModalWindow();
 
   const cropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);

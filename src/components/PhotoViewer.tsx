@@ -5,7 +5,7 @@ import useToggle, { HandleToggle } from '@/hooks/useToggle';
 import PurchasingWindow from '@/components/PurchasingWindow';
 import DownloadIcon from '@/icons/DownloadIcon';
 import ShareIcon from '@/icons/ShareIcon';
-import { useDispatch } from 'react-redux';
+import useModalWindow from '@/hooks/useModalWindow';
 
 interface Props {
   hide: HandleToggle,
@@ -16,7 +16,8 @@ interface Props {
 const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
   const [photoObject, setPhotoObject] = useState<string>();
   const [isPurchasingVisible, toggleIsPurchasingVisible] = useToggle();
-  const dispatch = useDispatch();
+
+  useModalWindow();
 
   useEffect(() => {
     const getPhoto = async () => {

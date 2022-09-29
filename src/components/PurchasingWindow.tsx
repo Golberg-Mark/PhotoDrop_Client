@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeWatermarkAction } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
+import useModalWindow from '@/hooks/useModalWindow';
 
 interface Props {
   hide: HandleToggle,
@@ -23,6 +24,8 @@ const PurchasingWindow: React.FC<Props> = ({ hide, albumName }) => {
   const [isLoading, toggleIsLoading] = useToggle();
   const error = useSelector(selectErrorMessage);
   const dispatch = useDispatch();
+
+  useModalWindow();
 
   const submitPurchasing = () => {
     toggleIsLoading(true);
