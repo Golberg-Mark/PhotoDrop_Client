@@ -73,7 +73,7 @@ const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
           </>
         )}
       </Buttons>
-      {isPurchasingVisible ? <PurchasingWindow hide={toggleIsPurchasingVisible} albumName={albumName!} /> : ''}
+      {isPurchasingVisible ? <PurchasingWindow hide={toggleIsPurchasingVisible} albumName={albumName!} isNested/> : ''}
     </StyledPhotoViewer>
   );
 };

@@ -14,18 +14,19 @@ import useModalWindow from '@/hooks/useModalWindow';
 
 interface Props {
   hide: HandleToggle,
-  albumName: string
+  albumName: string,
+  isNested?: boolean
 }
 
 type Services = 'album' | 'photo';
 
-const PurchasingWindow: React.FC<Props> = ({ hide, albumName }) => {
+const PurchasingWindow: React.FC<Props> = ({ hide, albumName, isNested = false }) => {
   const [whatIsPurchasing, setWhatIsPurchasing] = useState<Services>('album');
   const [isLoading, toggleIsLoading] = useToggle();
   const error = useSelector(selectErrorMessage);
   const dispatch = useDispatch();
 
-  useModalWindow();
+  if (!isNested) useModalWindow();
 
   const submitPurchasing = () => {
     toggleIsLoading(true);
