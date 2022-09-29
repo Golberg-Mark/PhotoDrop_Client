@@ -45,7 +45,7 @@ const SetName: React.FC<Props> = ({ isChanging = false, userName = '' }) => {
   return (
     <StyledSetName>
       <PageTitle marginBottom={0}>
-        { isChanging ? 'Your name' : `Let's get to know you` }
+        { isChanging ? 'Your full name' : `Let's get to know you` }
       </PageTitle>
       <Input type="text" value={name} onChange={setName} placeholder="Jane Smith" />
       <Button width={420} disabled={!isValid} onClick={saveName}>
