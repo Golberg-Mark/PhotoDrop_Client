@@ -77,21 +77,23 @@ const PhoneInput = () => {
               onChange={setSearchValue}
               placeholder="Input your country or country code"
             />
-            {filteredCounties.map((el, i) => (
-              <CountryListItem
-                key={el.iso}
-                isSelected={el.code === selectedCountry.code}
-                onClick={() => {
-                  setSelectedCountry(el);
-                  setSearchValue('');
-                  toggleIsCountriesVisible(false);
-                }}
-              >
-                <span>{el.country}</span>
-                <Code>—</Code>
-                <Code>{el.code}</Code>
-              </CountryListItem>
-            ))}
+            <CountryList>
+              {filteredCounties.map((el) => (
+                <CountryListItem
+                  key={el.iso}
+                  isSelected={el.code === selectedCountry.code}
+                  onClick={() => {
+                    setSelectedCountry(el);
+                    setSearchValue('');
+                    toggleIsCountriesVisible(false);
+                  }}
+                >
+                  <span>{el.country}</span>
+                  <Code>—</Code>
+                  <Code>{el.code}</Code>
+                </CountryListItem>
+              ))}
+            </CountryList>
           </CodesModalWindow>
         </Background>
       ) : ''}
@@ -143,27 +145,30 @@ const CountrySelector = styled.button`
 
 const CodesModalWindow = styled.div`
   display: block;
-  padding: 0 10px 5px;
   max-width: 375px;
   width: 100%;
   height: 100%;
   background-color: #fff;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
+`;
+
+const CountryList = styled.div`
+  padding: 10px 15px;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const Search = styled.input`
   display: block;
-  margin: 0 0 10px -10px;
   padding: 10px 15px;
-  width: calc(100% + 20px);
+  width: calc(100%);
   height: 50px;
   border: none;
-  border-bottom: 1px solid #CCC;
+  box-shadow: 0 -2px 15px 0 rgba(158,158,161, .9);
   
   :focus {
     outline: none;
-    border-bottom: 1px solid #3300CC;
   }
 `;
 
@@ -175,6 +180,7 @@ const CountryListItem = styled.p<{ isSelected: boolean }>`
   
   span {
     color: ${({ isSelected }) => isSelected ? '#3300CC' : '#262626'};
+    height: 18px;
   }
 
   &:hover > span {
