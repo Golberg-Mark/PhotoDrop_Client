@@ -5,49 +5,24 @@ import styled from 'styled-components';
 
 import DropSoonIcon from '@/icons/DropSoonIcon';
 import PageTitle from '@/components/PageTitle';
-import { selectAlbums } from '@/store/selectors/userSelector';
-import { getAlbumsAction, userActions } from '@/store/actions/userActions';
+import { selectAlbums, selectAllPhotos } from '@/store/selectors/userSelector';
+import { getAlbumsAction } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
 import Button from '@/components/Button';
 import AlbumsListItem from '@/components/Albums/AlbumsListItem';
 import PhotoViewer from '@/components/PhotoViewer';
-
-interface PhotoData {
-  url: string,
-  album?: string
-}
+import { Photo } from '@/store/reducers/user';
 
 const AlbumsPage = () => {
   const [photosPage, setPhotosPage] = useState(1);
-  const [photoLinks, setPhotoLinks] = useState<PhotoData[]>([]);
-  const [selectedPhoto, setSelectedPhoto] = useState<PhotoData | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const albums = useSelector(selectAlbums);
+  const allPhotos = useSelector(selectAllPhotos);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAlbumsAction());
-
-    return () => {
-      dispatch(userActions.setAlbums(null));
-    }
+    if (!albums || !allPhotos) dispatch(getAlbumsAction());
   }, []);
-
-  useEffect(() => {
-    if (albums?.length) {
-      let photos: PhotoData[] = [];
-
-      albums.forEach((album) => {
-        album.photos.forEach((photo) => {
-          photos.push({
-            url: photo.url,
-            album: photo.watermark ? album.name : undefined
-          })
-        });
-      });
-
-      setPhotoLinks(photos);
-    }
-  }, [albums]);
 
   const getContent = useCallback(() => {
       if (albums === null) return <Loader marginTop={-20} />;
@@ -82,16 +57,18 @@ const AlbumsPage = () => {
       } else {
         let photos = [];
 
-        for (let i = 0; i < photosPage * 3; i++) {
-          if (photoLinks[i]) photos.push(
-            <img
-              key={photoLinks[i].url}
-              src={photoLinks[i].url}
-              alt="Your Photo"
-              onClick={() => setSelectedPhoto(photoLinks[i])}
-            />
-          );
-          else break;
+        if (allPhotos) {
+          for (let i = 0; i < photosPage * 3; i++) {
+            if (allPhotos[i]) photos.push(
+              <img
+                key={allPhotos[i].url}
+                src={allPhotos[i].url}
+                alt="Your Photo"
+                onClick={() => setSelectedPhoto(allPhotos[i])}
+              />
+            );
+            else break;
+          }
         }
 
         return (
@@ -102,7 +79,7 @@ const AlbumsPage = () => {
             <AlbumsList withMarginBottom>
               {albums.map((el, i) => (
                 <Link to={`/albums/${el.name}`} key={`${el.name + i}`}>
-                  <AlbumsListItem albumName={el.name} source={el.photos[0].url} altText={el.name} />
+                  <AlbumsListItem albumName={el.name} source={el.image} altText={el.name} />
                 </Link>
               ))}
             </AlbumsList>
@@ -112,7 +89,7 @@ const AlbumsPage = () => {
             <PhotoList>
               {photos}
             </PhotoList>
-            {photoLinks.length !== photos.length ? (
+            {allPhotos?.length !== photos.length ? (
               <Button
                 style={{ display: 'block', margin: '0 auto' }}
                 onClick={() => setPhotosPage(prevState => ++prevState)}
@@ -123,7 +100,7 @@ const AlbumsPage = () => {
           </NonEmptyAlbums>
         );
       }
-  }, [albums, photoLinks, photosPage]);
+  }, [albums, allPhotos, photosPage]);
 
   return (
     <StyledAlbumsPage>
@@ -132,7 +109,7 @@ const AlbumsPage = () => {
         <PhotoViewer
           hide={() => setSelectedPhoto(null)}
           photo={selectedPhoto.url}
-          albumName={selectedPhoto.album}
+          albumName={selectedPhoto.watermark ? selectedPhoto.album : undefined}
         />
       ) : ''}
     </StyledAlbumsPage>

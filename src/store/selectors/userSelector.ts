@@ -1,6 +1,6 @@
 import { State } from '@/store';
 import { createSelector, Selector } from 'reselect';
-import { Album, AuthStep, PhoneNumber, User } from '@/store/reducers/user';
+import { Album, AuthStep, PhoneNumber, Photo, SelectedAlbum, User } from '@/store/reducers/user';
 
 const userState = (state: State) => state.userReducer;
 
@@ -29,7 +29,12 @@ export const selectAlbums: Selector<State, Album[] | null> = createSelector(
   ({ albums }) => albums
 );
 
-export const selectSelectedAlbum: Selector<State, Album | null> = createSelector(
+export const selectAllPhotos: Selector<State, Photo[] | null> = createSelector(
+  userState,
+  ({ allPhotos }) => allPhotos
+);
+
+export const selectSelectedAlbum: Selector<State, SelectedAlbum | null> = createSelector(
   userState,
   ({ selectedAlbum }) => selectedAlbum
 );

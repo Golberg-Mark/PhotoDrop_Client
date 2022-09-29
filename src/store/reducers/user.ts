@@ -21,10 +21,18 @@ export interface UpdateUser {
 
 export interface Photo {
   url: string,
-  watermark: boolean
+  watermark: boolean,
+  album: string
 }
 
 export interface Album {
+  name: string,
+  location: string,
+  date: string,
+  image: string
+}
+
+export interface SelectedAlbum {
   name: string,
   location: string,
   date: string,
@@ -34,7 +42,8 @@ export interface Album {
 interface UserState {
   user: User | null,
   albums: Album[] | null,
-  selectedAlbum: Album | null,
+  allPhotos: Photo[] | null,
+  selectedAlbum: SelectedAlbum | null,
   tempUserPhoto: string | null,
   tempUserName: string | null,
   tempUserEmail: string | null,
@@ -46,6 +55,7 @@ interface UserState {
 const InitialState: UserState = {
   user: null,
   albums: null,
+  allPhotos: null,
   selectedAlbum: null,
   tempUserPhoto: null,
   tempUserName: null,
@@ -76,7 +86,11 @@ export class UserReducer extends ImmerReducer<UserState> {
     this.draftState.albums = value;
   }
 
-  public setSelectedAlbum(value: Album | null) {
+  public setAllPhotos(value: Photo[] | null) {
+    this.draftState.allPhotos = value;
+  }
+
+  public setSelectedAlbum(value: SelectedAlbum | null) {
     this.draftState.selectedAlbum = value;
   }
 

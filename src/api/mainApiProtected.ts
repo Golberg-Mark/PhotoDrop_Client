@@ -1,5 +1,5 @@
 import { HttpClientProtected } from '@/api/httpClientProtected';
-import { Album, UpdateUser, User } from '@/store/reducers/user';
+import { Album, Photo, SelectedAlbum, UpdateUser, User } from '@/store/reducers/user';
 
 export class MainApiProtected extends HttpClientProtected {
   private static instanceCached: MainApiProtected;
@@ -20,9 +20,9 @@ export class MainApiProtected extends HttpClientProtected {
 
   public updateClient = (body: UpdateUser) => this.instance.put<{ message: string }>('/client', body);
 
-  public getAlbums = () => this.instance.get<Album[]>('/albums');
+  public getAlbums = () => this.instance.get<{ albums: Album[], allPhotos: Photo[] }>('/albums');
 
-  public getAlbum = (albumName: string) => this.instance.get<Album>(`/albums/${albumName}`);
+  public getAlbum = (albumName: string) => this.instance.get<SelectedAlbum>(`/albums/${albumName}`);
 
   public removeWatermark = (item: string) => this.instance.delete<{ message: string }>(`/removeWatermark/${item}`);
 }

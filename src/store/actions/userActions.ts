@@ -1,9 +1,9 @@
 import { createActionCreators } from 'immer-reducer';
 import axios from 'axios';
-import { push, replace } from '@lagunovsky/redux-react-router';
+import { push } from '@lagunovsky/redux-react-router';
 import { Buffer } from 'buffer';
 
-import { PhoneNumber, UpdateUser, User, UserReducer } from '@/store/reducers/user';
+import { UpdateUser, UserReducer } from '@/store/reducers/user';
 import { AsyncAction } from '@/store/actions/common';
 import { errorActions } from '@/store/actions/errorActions';
 import { PhoneRequest } from '@/api/mainApi';
@@ -20,6 +20,7 @@ export type UserActions = ReturnType<typeof userActions.setUser>
   | ReturnType<typeof userActions.setTempUserName>
   | ReturnType<typeof userActions.setTempUserEmail>
   | ReturnType<typeof userActions.setAlbums>
+  | ReturnType<typeof userActions.setAllPhotos>
   | ReturnType<typeof userActions.setSelectedAlbum>;
 
 export const getMeAction  = (): AsyncAction => async (
@@ -148,9 +149,10 @@ export const getAlbumsAction = (): AsyncAction => async (
   { mainApiProtected }
 ) => {
   try {
-    const albums = await mainApiProtected.getAlbums();
+    const { albums, allPhotos } = await mainApiProtected.getAlbums();
 
     dispatch(userActions.setAlbums(albums));
+    dispatch(userActions.setAllPhotos(allPhotos));
   } catch (error: any) {
     console.log(error);
     if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));
@@ -178,7 +180,7 @@ interface IRemoveWatermark {
   callback: HandleToggle
 }
 
-export const removeWatermarkAction = ({ albumName, photoName, callback }: IRemoveWatermark): AsyncAction => async (
+export const removeWatermarkAction = ({ albumName, photoName }: IRemoveWatermark): AsyncAction => async (
   dispatch,
   _,
   { mainApiProtected }

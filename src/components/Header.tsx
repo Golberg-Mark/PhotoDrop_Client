@@ -116,6 +116,7 @@ const Profile = styled(Link)`
   background-color: transparent;
   cursor: pointer;
   align-self: center;
+  user-select: none;
 `;
 
 const ProfilePhoto = styled.img`
