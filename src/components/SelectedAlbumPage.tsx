@@ -75,7 +75,10 @@ const SelectedAlbumPage = () => {
         <PurchasingWindow hide={toggleIsPurchasingVisible} albumName={selectedAlbum.name} />
       ) : ''}
       {selectedPhoto ? (
-        <PhotoViewer hide={() => setSelectedPhoto(null)} photo={selectedPhoto} albumName={albumName}/>
+        <PhotoViewer
+          hide={() => setSelectedPhoto(null)}
+          photo={selectedPhoto}
+          albumName={selectedAlbum.photos[0].watermark ? albumName : undefined}/>
       ) : ''}
     </StyledSelectedAlbumPage>
   ) : <StyledSelectedAlbumPage><Loader /></StyledSelectedAlbumPage>;
