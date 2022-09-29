@@ -149,6 +149,7 @@ const CodesModalWindow = styled.div`
   height: 100%;
   background-color: #fff;
   overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const Search = styled.input`
