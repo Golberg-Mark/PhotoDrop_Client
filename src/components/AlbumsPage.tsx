@@ -204,7 +204,7 @@ const NonEmptyAlbums = styled.div`
 const PhotoList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin-bottom: 40px;
+  margin: 0 -15px 40px;
 
   img {
     object-fit: cover;
@@ -213,7 +213,7 @@ const PhotoList = styled.div`
   }
 
   @media (min-width: 768px) {
-    margin-bottom: 100px;
+    margin: 0 0 100px;
   }
 `;
 
