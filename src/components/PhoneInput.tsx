@@ -76,6 +76,7 @@ const PhoneInput = () => {
               value={searchValue}
               onChange={setSearchValue}
               placeholder="Input your country or country code"
+              autoFocus
             />
             <CountryList>
               {filteredCounties.map((el) => (
