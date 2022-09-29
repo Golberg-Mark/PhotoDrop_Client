@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -13,9 +13,11 @@ import Button from '@/components/Button';
 import { Link } from 'react-router-dom';
 import useToggle from '@/hooks/useToggle';
 import PurchasingWindow from '@/components/PurchasingWindow';
+import PhotoViewer from '@/components/PhotoViewer';
 
 const SelectedAlbumPage = () => {
   const [isPurchasingVisible, toggleIsPurchasingVisible] = useToggle();
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const { albumName } = useParams();
   const navigate = useNavigate();
   const selectedAlbum = useSelector(selectSelectedAlbum);
@@ -61,7 +63,7 @@ const SelectedAlbumPage = () => {
       </AlbumHeader>
       <PhotoList>
         {selectedAlbum.photos.map((el, i) => (
-          <img key={i} src={el.url} alt="Your Photo"/>
+          <img key={i} src={el.url} alt="Your Photo" onClick={() => setSelectedPhoto(el.url)}/>
         ))}
       </PhotoList>
       {isUnlocked ? (
@@ -71,6 +73,9 @@ const SelectedAlbumPage = () => {
       ) : null}
       {isPurchasingVisible ? (
         <PurchasingWindow hide={toggleIsPurchasingVisible} albumName={selectedAlbum.name} />
+      ) : ''}
+      {selectedPhoto ? (
+        <PhotoViewer hide={() => setSelectedPhoto(null)} photo={selectedPhoto} albumName={albumName}/>
       ) : ''}
     </StyledSelectedAlbumPage>
   ) : <StyledSelectedAlbumPage><Loader /></StyledSelectedAlbumPage>;
@@ -90,7 +95,7 @@ const AlbumHeader = styled.div`
   h2 {
     margin-bottom: 4px;
   }
-  
+
   svg {
     position: absolute;
     top: 50%;
@@ -103,11 +108,11 @@ const AlbumHeader = styled.div`
     grid-gap: 100px;
     padding: 15px 0;
     min-height: 60px;
-    
+
     h2 {
       margin: 0;
     }
-    
+
     svg {
       left: -70px;
     }
@@ -145,7 +150,7 @@ const Info = styled.div`
 
 const UnlockYourPhoto = styled(Button)`
   display: none;
-  
+
   @media (min-width: 768px) {
     display: block;
     align-self: flex-end;
@@ -163,12 +168,12 @@ const UnlockYourPhoto = styled(Button)`
 const PhotoList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin: 0 0 40px -15px;
-  width: calc(100% + 30px);
+  margin: 0 -15px 40px;
 
   img {
     object-fit: cover;
     aspect-ratio: 1 / 1;
+    cursor: pointer;
   }
 
   @media (min-width: 768px) {
@@ -180,7 +185,7 @@ const PhotoList = styled.div`
 const StyledButton = styled(Button)`
   display: block;
   margin: 0 auto 40px;
-  
+
   @media (min-width: 480px) {
     margin: 0 auto 100px;
   }
