@@ -13,20 +13,14 @@ import { userActions } from '@/store/actions/userActions';
 const PhoneInput = () => {
   const [isCountriesVisible, toggleIsCountriesVisible] = useToggle();
   const [selectedCountry, setSelectedCountry] = useState(0);
+  const [searchValue, setSearchValue] = useInput('', 20);
   const [number, setNumber] = useInput(countryList[0].code, 15, 'phone');
-  const selectedItemRef = useRef<HTMLParagraphElement>(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     setNumber(countryList[selectedCountry].code);
   }, [selectedCountry]);
-
-  useEffect(() => {
-    if (isCountriesVisible && selectedItemRef.current) {
-      selectedItemRef.current.scrollIntoView();
-    }
-  }, [selectedItemRef, isCountriesVisible]);
 
   useEffect(() => {
     const countryRegexp = new RegExp(/^(\+\d{0,4})$/);
@@ -49,6 +43,18 @@ const PhoneInput = () => {
     }
   };
 
+  let filteredCounties = countryList;
+
+  if (searchValue.length) {
+    filteredCounties = countryList.filter((el) => {
+      const country = el.country.toLowerCase();
+      const code = el.code;
+      const val = searchValue.toLowerCase();
+
+      if (country.includes(val) || code.includes(val)) return el;
+    });
+  }
+
   return (
     <StyledPhoneInput>
       <CountrySelector onClick={toggleIsCountriesVisible}>
@@ -65,13 +71,19 @@ const PhoneInput = () => {
       {isCountriesVisible ? (
         <Background onClick={toggleIsCountriesVisible}>
           <CodesModalWindow onClick={(evt) => evt.stopPropagation()}>
-            {countryList.map((el, i) => (
+            <Search
+              type="text"
+              value={searchValue}
+              onChange={setSearchValue}
+              placeholder="Input your country or country code"
+            />
+            {filteredCounties.map((el, i) => (
               <CountryListItem
                 key={el.iso}
                 isSelected={i === selectedCountry}
-                ref={i === selectedCountry ? selectedItemRef : null}
                 onClick={() => {
                   setSelectedCountry(i);
+                  setSearchValue('');
                   toggleIsCountriesVisible(false);
                 }}
               >
@@ -131,12 +143,27 @@ const CountrySelector = styled.button`
 
 const CodesModalWindow = styled.div`
   display: block;
-  padding: 5px 10px;
+  padding: 0 10px 5px;
   max-width: 375px;
   width: 100%;
   height: 100%;
   background-color: #fff;
   overflow-y: scroll;
+`;
+
+const Search = styled.input`
+  display: block;
+  margin: 0 0 10px -10px;
+  padding: 10px 15px;
+  width: calc(100% + 20px);
+  height: 50px;
+  border: none;
+  border-bottom: 1px solid #CCC;
+  
+  :focus {
+    outline: none;
+    border-bottom: 1px solid #3300CC;
+  }
 `;
 
 const CountryListItem = styled.p<{ isSelected: boolean }>`
@@ -146,7 +173,7 @@ const CountryListItem = styled.p<{ isSelected: boolean }>`
   font-weight: 400;
   
   span {
-    color: ${({ isSelected }) => isSelected ? '#3300CC' : '#262626'}
+    color: ${({ isSelected }) => isSelected ? '#3300CC' : '#262626'};
   }
 
   &:hover > span {

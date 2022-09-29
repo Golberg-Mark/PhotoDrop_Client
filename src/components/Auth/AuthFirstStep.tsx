@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import PhoneInput from '@/components/PhoneInput';
 import Button from '@/components/Button';
 import { selectAuthNumber, selectUser } from '@/store/selectors/userSelector';
-import { createAccountAction, userActions } from '@/store/actions/userActions';
+import { createAccountAction } from '@/store/actions/userActions';
 import PageTitle from '@/components/PageTitle';
 import useToggle from '@/hooks/useToggle';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
 import Loader from '@/components/Loader';
 import useKeyPress from '@/hooks/useKeyPress';
 import { PhoneRequest } from '@/api/mainApi';
-import { Link } from 'react-router-dom';
 
 interface Props {
   isItChanging?: boolean
