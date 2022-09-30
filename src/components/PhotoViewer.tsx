@@ -121,14 +121,16 @@ const Button = styled.button<{ alternativeStyle?: boolean }>`
   border-radius: 50px;
   background-color: ${({ alternativeStyle }) => alternativeStyle ? 'transparent' : '#fff'};
   cursor: pointer;
-
-  :hover {
-    color: ${({ alternativeStyle }) => alternativeStyle ? '#fff' : '#3300CC'};
-    border: ${({ alternativeStyle }) => alternativeStyle ? '1px solid #3300EE' : 'none'};
-  }
   
   @media (min-width: 420px) {
     max-width: 300px;
+  }
+  
+  @media (min-width: 768px) {
+    :hover {
+      color: ${({ alternativeStyle }) => alternativeStyle ? '#fff' : '#3300CC'};
+      border: ${({ alternativeStyle }) => alternativeStyle ? '1px solid #3300EE' : 'none'};
+    }
   }
 `;
 
@@ -149,11 +151,13 @@ const IconWrapper = styled.div`
   color: #fff;
   cursor: pointer;
   
-  :hover {
-    color: #3300EE;
-    
-    path, rect {
-      fill: #3300EE;
+  @media (min-width: 768px) {
+    :hover {
+      color: #3300EE;
+
+      path, rect {
+        fill: #3300EE;
+      }
     }
   }
 `;
