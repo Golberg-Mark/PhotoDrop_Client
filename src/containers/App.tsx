@@ -61,10 +61,12 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: auto;
     user-select: none;
+    touch-action: none;
   }
   
-  svg {
+  svg, input, label {
     user-select: none;
+    touch-action: none;
   }
   
   p, span, h1, h2, h3, h4, h5, h6 {
