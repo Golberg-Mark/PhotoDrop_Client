@@ -61,12 +61,12 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: auto;
     user-select: none;
-    touch-action: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
   
-  svg, input, label {
+  svg, input, label, a {
     user-select: none;
-    touch-action: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
   
   p, span, h1, h2, h3, h4, h5, h6 {
