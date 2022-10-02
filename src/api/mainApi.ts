@@ -10,7 +10,7 @@ class MainApi extends HttpClient {
   private static instanceCached: MainApi;
 
   constructor() {
-    super('https://pgq3rrm92c.execute-api.us-east-1.amazonaws.com/dev');
+    super('https://0kxtyobjpg.execute-api.us-east-1.amazonaws.com/dev');
   }
 
   public static getInstance = () => {
