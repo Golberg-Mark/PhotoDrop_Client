@@ -10,7 +10,6 @@ import BackIcon from '@/icons/BackIcon';
 import PageTitle from '@/components/PageTitle';
 import getMonth from '@/utils/getMonth';
 import Button from '@/components/Button';
-import { Link } from 'react-router-dom';
 import useToggle from '@/hooks/useToggle';
 import PurchasingWindow from '@/components/PurchasingWindow';
 import PhotoViewer from '@/components/PhotoViewer';
@@ -18,13 +17,13 @@ import PhotoViewer from '@/components/PhotoViewer';
 const SelectedAlbumPage = () => {
   const [isPurchasingVisible, toggleIsPurchasingVisible] = useToggle();
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
-  const { albumName } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const selectedAlbum = useSelector(selectSelectedAlbum);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (albumName && !selectedAlbum) dispatch(getSelectedAlbumAction(albumName));
+    if (id && !selectedAlbum) dispatch(getSelectedAlbumAction(id));
 
     return () => {
       dispatch(userActions.setSelectedAlbum(null));
@@ -72,13 +71,13 @@ const SelectedAlbumPage = () => {
         </StyledButton>
       ) : null}
       {isPurchasingVisible ? (
-        <PurchasingWindow hide={toggleIsPurchasingVisible} albumName={selectedAlbum.name} />
+        <PurchasingWindow hide={toggleIsPurchasingVisible} albumInfo={{ id: selectedAlbum.id, albumName: selectedAlbum.name }} />
       ) : ''}
       {selectedPhoto ? (
         <PhotoViewer
           hide={() => setSelectedPhoto(null)}
           photo={selectedPhoto}
-          albumName={selectedAlbum.photos[0].watermark ? albumName : undefined}/>
+          albumInfo={selectedAlbum.photos[0].watermark ? { id: selectedAlbum.id, albumName: selectedAlbum.name } : undefined}/>
       ) : ''}
     </StyledSelectedAlbumPage>
   ) : <StyledSelectedAlbumPage><Loader /></StyledSelectedAlbumPage>;

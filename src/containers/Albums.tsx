@@ -10,7 +10,7 @@ const Albums = () => {
     <Routes>
       <Route path="/" element={<AlbumsPage />} />
       <Route path="/albums/thanks" element={<ThanksPage />} />
-      <Route path="/albums/:albumName" element={<SelectedAlbumPage />} />
+      <Route path="/albums/:id" element={<SelectedAlbumPage />} />
     </Routes>
   );
 };

@@ -36,6 +36,7 @@ export interface Album {
 }
 
 export interface SelectedAlbum {
+  id: string,
   name: string,
   location: string,
   date: string,

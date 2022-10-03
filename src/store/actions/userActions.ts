@@ -160,13 +160,13 @@ export const getAlbumsAction = (): AsyncAction => async (
   }
 };
 
-export const getSelectedAlbumAction = (albumName: string): AsyncAction => async (
+export const getSelectedAlbumAction = (albumId: string): AsyncAction => async (
   dispatch,
   _,
   { mainApiProtected }
 ) => {
   try {
-    const album = await mainApiProtected.getAlbum(albumName);
+    const album = await mainApiProtected.getAlbum(albumId);
 
     dispatch(userActions.setSelectedAlbum(album));
   } catch (error: any) {
