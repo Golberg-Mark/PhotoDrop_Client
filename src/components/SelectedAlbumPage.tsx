@@ -71,13 +71,20 @@ const SelectedAlbumPage = () => {
         </StyledButton>
       ) : null}
       {isPurchasingVisible ? (
-        <PurchasingWindow hide={toggleIsPurchasingVisible} albumInfo={{ id: selectedAlbum.id, albumName: selectedAlbum.name }} />
+        <PurchasingWindow
+          hide={toggleIsPurchasingVisible}
+          albumInfo={{ id: selectedAlbum.id, albumName: selectedAlbum.name, photosAmount: selectedAlbum.photos.length }}
+        />
       ) : ''}
       {selectedPhoto ? (
         <PhotoViewer
           hide={() => setSelectedPhoto(null)}
           photo={selectedPhoto}
-          albumInfo={selectedAlbum.photos[0].watermark ? { id: selectedAlbum.id, albumName: selectedAlbum.name } : undefined}/>
+          albumInfo={selectedAlbum.photos[0].watermark ? {
+            id: selectedAlbum.id,
+            albumName: selectedAlbum.name,
+            photosAmount: selectedAlbum.photos.length
+          } : undefined}/>
       ) : ''}
     </StyledSelectedAlbumPage>
   ) : <StyledSelectedAlbumPage><Loader /></StyledSelectedAlbumPage>;

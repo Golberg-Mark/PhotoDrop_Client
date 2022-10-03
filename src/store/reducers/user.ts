@@ -24,7 +24,8 @@ export interface Photo {
   watermark: boolean,
   albumName: string,
   albumId: string,
-  id: string
+  id: string,
+  countAlbumPhotos: number
 }
 
 export interface Album {

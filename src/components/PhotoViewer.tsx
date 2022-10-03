@@ -12,7 +12,8 @@ interface Props {
   photo: string,
   albumInfo?: {
     id: string,
-    albumName: string
+    albumName: string,
+    photosAmount: number
   }
 }
 

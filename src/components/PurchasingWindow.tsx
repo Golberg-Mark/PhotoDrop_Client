@@ -16,7 +16,8 @@ interface Props {
   hide: HandleToggle,
   albumInfo: {
     id: string,
-    albumName: string
+    albumName: string,
+    photosAmount: number
   }
   isNested?: boolean
 }
@@ -62,7 +63,7 @@ const PurchasingWindow: React.FC<Props> = ({ hide, albumInfo, isNested = false }
         </RadioWrapper>
         <RadioWrapper checked={whatIsPurchasing === 'album'}>
           <Radio
-            name={`All 5 photos from ${albumInfo.albumName}`}
+            name={`All ${albumInfo.photosAmount} photos from ${albumInfo.albumName}`}
             onClick={() => setWhatIsPurchasing('album')}
             checked={whatIsPurchasing === 'album'}
           />

@@ -109,7 +109,11 @@ const AlbumsPage = () => {
         <PhotoViewer
           hide={() => setSelectedPhoto(null)}
           photo={selectedPhoto.url}
-          albumInfo={selectedPhoto.watermark ? { id: selectedPhoto.albumId, albumName: selectedPhoto.albumName } : undefined}
+          albumInfo={selectedPhoto.watermark ? {
+            id: selectedPhoto.albumId,
+            albumName: selectedPhoto.albumName,
+            photosAmount: selectedPhoto.countAlbumPhotos
+          } : undefined}
         />
       ) : ''}
     </StyledAlbumsPage>
