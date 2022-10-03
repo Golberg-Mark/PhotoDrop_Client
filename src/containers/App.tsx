@@ -48,6 +48,10 @@ const GlobalStyle = createGlobalStyle`
     ::after, ::before {
       box-sizing: border-box;
     }
+    
+    :focus {
+      outline: none;
+    }
   }
   
   body {

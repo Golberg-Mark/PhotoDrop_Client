@@ -18,7 +18,6 @@ const StyledInput = styled.input`
   background-color: #EEE;
   
   :focus {
-    outline: none;
     border: 1px solid #3300CC;
   }
 `;

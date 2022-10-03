@@ -139,7 +139,6 @@ const CountrySelector = styled.button`
   }
   
   :focus {
-    outline: none;
     border: 1px solid #3300CC;
   }
 `;
@@ -167,10 +166,6 @@ const Search = styled.input`
   height: 50px;
   border: none;
   box-shadow: 0 -2px 15px 0 rgba(158,158,161, .9);
-  
-  :focus {
-    outline: none;
-  }
 `;
 
 const CountryListItem = styled.p<{ isSelected: boolean }>`
@@ -203,7 +198,6 @@ const Input = styled.input`
   cursor: pointer;
 
   :focus {
-    outline: none;
     border: 1px solid #3300CC;
   }
 `;
