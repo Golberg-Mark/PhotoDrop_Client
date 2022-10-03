@@ -21,6 +21,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
   const [path, setPath] = useState(filePath);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [minZoom, setMinZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
   const dispatch = useDispatch();
@@ -74,6 +75,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
           onCropChange={setCrop}
           zoom={zoom}
           onZoomChange={setZoom}
+          minZoom={minZoom}
           cropShape="round"
           showGrid={false}
           onCropComplete={cropComplete}
@@ -82,6 +84,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
             const smallerSide = width > height ? height : width;
 
             setZoom(285 / smallerSide);
+            setMinZoom(285 / smallerSide);
           }}
         />
       </div>
