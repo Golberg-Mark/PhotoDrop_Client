@@ -101,7 +101,7 @@ export const uploadSelfieAction = (file: string, withoutRouting: boolean = false
   { mainApiProtected }
 ) => {
   try {
-    const { url } = await mainApiProtected.getPreassignedUrl();
+    const url = await mainApiProtected.getPreassignedUrl('image/jpeg');
 
     if (url) {
       const buf = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ""),'base64');
