@@ -40,8 +40,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
         croppedAreaPixels
       );
 
-      dispatch(uploadSelfieAction(croppedImage, withoutRouting));
-      if (withoutRouting) hide(false);
+      dispatch(uploadSelfieAction(croppedImage, withoutRouting ? hide : undefined));
     } catch (e) {
       toggleIsLoading(false);
       console.error(e);
