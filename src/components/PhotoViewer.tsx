@@ -10,10 +10,13 @@ import useModalWindow from '@/hooks/useModalWindow';
 interface Props {
   hide: HandleToggle,
   photo: string,
-  albumName?: string
+  albumInfo?: {
+    id: string,
+    albumName: string
+  }
 }
 
-const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
+const PhotoViewer: React.FC<Props> = ({ albumInfo, photo, hide }) => {
   const [photoObject, setPhotoObject] = useState<string>();
   const [isPurchasingVisible, toggleIsPurchasingVisible] = useToggle();
 
@@ -51,7 +54,7 @@ const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
       <CloseIcon onClick={hide as unknown as React.MouseEventHandler<HTMLOrSVGElement>} />
       <Image src={photo} alt="Your Photo" />
       <Buttons>
-        {albumName ? (
+        {albumInfo ? (
           <Button onClick={toggleIsPurchasingVisible}>
             Unlock your photos
           </Button>
@@ -73,7 +76,7 @@ const PhotoViewer: React.FC<Props> = ({ albumName, photo, hide }) => {
           </>
         )}
       </Buttons>
-      {isPurchasingVisible ? <PurchasingWindow hide={toggleIsPurchasingVisible} albumName={albumName!} isNested/> : ''}
+      {isPurchasingVisible ? <PurchasingWindow hide={toggleIsPurchasingVisible} albumInfo={albumInfo!} isNested/> : ''}
     </StyledPhotoViewer>
   );
 };

@@ -22,10 +22,13 @@ export interface UpdateUser {
 export interface Photo {
   url: string,
   watermark: boolean,
-  album: string
+  albumName: string,
+  albumId: string,
+  id: string
 }
 
 export interface Album {
+  id: string,
   name: string,
   location: string,
   date: string,

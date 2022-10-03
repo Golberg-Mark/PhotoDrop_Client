@@ -78,7 +78,7 @@ const AlbumsPage = () => {
             </PageTitle>
             <AlbumsList withMarginBottom>
               {albums.map((el, i) => (
-                <Link to={`/albums/${el.name}`} key={`${el.name + i}`}>
+                <Link to={`/albums/${el.id}`} key={`${el.name + i}`}>
                   <AlbumsListItem albumName={el.name} source={el.image} altText={el.name} />
                 </Link>
               ))}
@@ -109,7 +109,7 @@ const AlbumsPage = () => {
         <PhotoViewer
           hide={() => setSelectedPhoto(null)}
           photo={selectedPhoto.url}
-          albumName={selectedPhoto.watermark ? selectedPhoto.album : undefined}
+          albumInfo={selectedPhoto.watermark ? { id: selectedPhoto.albumId, albumName: selectedPhoto.albumName } : undefined}
         />
       ) : ''}
     </StyledAlbumsPage>

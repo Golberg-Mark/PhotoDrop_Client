@@ -176,18 +176,19 @@ export const getSelectedAlbumAction = (albumName: string): AsyncAction => async 
 };
 
 interface IRemoveWatermark {
+  albumId: string,
   albumName: string,
   photoName?: string,
   callback: HandleToggle
 }
 
-export const removeWatermarkAction = ({ albumName, photoName }: IRemoveWatermark): AsyncAction => async (
+export const removeWatermarkAction = ({ albumId, albumName, photoName }: IRemoveWatermark): AsyncAction => async (
   dispatch,
   _,
   { mainApiProtected }
 ) => {
   try {
-    const { message } = await mainApiProtected.removeWatermark(photoName || albumName);
+    const { message } = await mainApiProtected.removeWatermark(photoName || albumId);
 
     if (message) {
       dispatch(push('/albums/thanks', { albumName }));

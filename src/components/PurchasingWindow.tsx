@@ -14,13 +14,16 @@ import useModalWindow from '@/hooks/useModalWindow';
 
 interface Props {
   hide: HandleToggle,
-  albumName: string,
+  albumInfo: {
+    id: string,
+    albumName: string
+  }
   isNested?: boolean
 }
 
 type Services = 'album' | 'photo';
 
-const PurchasingWindow: React.FC<Props> = ({ hide, albumName, isNested = false }) => {
+const PurchasingWindow: React.FC<Props> = ({ hide, albumInfo, isNested = false }) => {
   const [whatIsPurchasing, setWhatIsPurchasing] = useState<Services>('album');
   const [isLoading, toggleIsLoading] = useToggle();
   const error = useSelector(selectErrorMessage);
@@ -32,7 +35,8 @@ const PurchasingWindow: React.FC<Props> = ({ hide, albumName, isNested = false }
     toggleIsLoading(true);
 
     dispatch(removeWatermarkAction({
-      albumName,
+      albumId: albumInfo.id,
+      albumName: albumInfo.albumName,
       callback: hide
     }));
   };
@@ -58,7 +62,7 @@ const PurchasingWindow: React.FC<Props> = ({ hide, albumName, isNested = false }
         </RadioWrapper>
         <RadioWrapper checked={whatIsPurchasing === 'album'}>
           <Radio
-            name={`All 5 photos from ${albumName}`}
+            name={`All 5 photos from ${albumInfo.albumName}`}
             onClick={() => setWhatIsPurchasing('album')}
             checked={whatIsPurchasing === 'album'}
           />
