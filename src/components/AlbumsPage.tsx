@@ -58,7 +58,7 @@ const AlbumsPage = () => {
         let photos = [];
 
         if (allPhotos) {
-          for (let i = 0; i < photosPage * 3; i++) {
+          for (let i = 0; i < photosPage * 12; i++) {
             if (allPhotos[i]) photos.push(
               <img
                 key={allPhotos[i].url}
