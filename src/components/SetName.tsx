@@ -18,7 +18,7 @@ interface Props {
 }
 
 const SetName: React.FC<Props> = ({ isChanging = false, userName = '' }) => {
-  const [name, setName] = useInput(userName, 100, 'name');
+  const [fullName, setFullName] = useInput(userName, 100, 'name');
   const [isLoading, toggleIsLoading] = useToggle();
   const isEnterPressed = useKeyPress('Enter');
   const error = useSelector(selectErrorMessage);
@@ -35,19 +35,19 @@ const SetName: React.FC<Props> = ({ isChanging = false, userName = '' }) => {
   const saveName = () => {
     if (isValid) {
       toggleIsLoading(true);
-      dispatch(updateClientAction({ name }, '/profile'));
+      dispatch(updateClientAction({ fullName }, '/profile'));
     }
   };
 
-  const splitName = name.split(' ');
-  const isValid = !!name.length && splitName.length === 2 && splitName[1] !== '';
+  const splitName = fullName.split(' ');
+  const isValid = !!fullName.length && splitName.length === 2 && splitName[1] !== '';
 
   return (
     <StyledSetName>
       <PageTitle marginBottom={0}>
         { isChanging ? 'Your full name' : `Let's get to know you` }
       </PageTitle>
-      <Input type="text" value={name} onChange={setName} placeholder="Jane Smith" />
+      <Input type="text" value={fullName} onChange={setFullName} placeholder="Jane Smith" />
       <Button width={420} disabled={!isValid} onClick={saveName}>
         {isLoading ? <Loader /> : 'Save'}
       </Button>

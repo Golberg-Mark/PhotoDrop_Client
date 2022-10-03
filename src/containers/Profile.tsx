@@ -13,7 +13,7 @@ const Profile = () => {
   const tempName = useSelector(selectTempUserName);
   const tempEmail = useSelector(selectTempUserEmail);
 
-  const name = tempName || user?.name;
+  const name = tempName || user?.fullName;
   const email = tempEmail || user?.email;
 
   return user ? (

@@ -44,7 +44,7 @@ const ProfilePage = () => {
     }
   };
 
-  const name = tempName || user?.name;
+  const name = tempName || user?.fullName;
 
   return user ? (
     <StyledProfile>

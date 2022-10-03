@@ -11,11 +11,11 @@ export interface User {
   number: PhoneNumber,
   email?: string,
   selfie?: string,
-  name?: string
+  fullName?: string
 }
 
 export interface UpdateUser {
-  name?: string,
+  fullName?: string,
   email?: string
 }
 

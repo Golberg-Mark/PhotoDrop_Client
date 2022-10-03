@@ -132,8 +132,8 @@ export const updateClientAction = (body: UpdateUser, navigateTo: string): AsyncA
     const { message } = await mainApiProtected.updateClient(body);
 
     if (message) {
-      body.name
-        ? dispatch(userActions.setTempUserName(body.name))
+      body.fullName
+        ? dispatch(userActions.setTempUserName(body.fullName))
         : dispatch(userActions.setTempUserEmail(body.email!));
 
       dispatch(push(navigateTo));
