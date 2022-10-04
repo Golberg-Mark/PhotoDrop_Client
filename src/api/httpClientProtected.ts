@@ -1,10 +1,10 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 import HttpClient from '@/api/httpClient';
 
 export class HttpClientProtected extends HttpClient {
   constructor() {
-    super('https://0kxtyobjpg.execute-api.us-east-1.amazonaws.com/dev');
+    super(process.env.API_URL);
 
     this.initializeInterceptors();
   }
