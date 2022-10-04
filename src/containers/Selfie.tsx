@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PageTitle from '@/components/PageTitle';
 import useToggle from '@/hooks/useToggle';
 import CropperWindow from '@/components/CropperWindow';
+import heicConverter from '@/utils/heicConverter';
 
 const Selfie = () => {
   const [file, setFile] = useState<string | null>(null);
@@ -11,10 +12,18 @@ const Selfie = () => {
 
   const inputFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target.files) {
-      const url = URL.createObjectURL(evt.target.files[0]);
+      const file = evt.target.files[0];
+      let url;
 
-      setFile(url);
-    } else console.log(evt);
+      if (file.name.endsWith('.heic')) {
+        heicConverter(file).then(result => {
+          setFile(result);
+        });
+      } else {
+        url = URL.createObjectURL(file);
+        setFile(url);
+      }
+    } else console.log(evt.target);
   };
 
   useEffect(() => {

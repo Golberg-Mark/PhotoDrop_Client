@@ -9,6 +9,7 @@ import EditIcon from '@/icons/EditIcon';
 import BackIcon from '@/icons/BackIcon';
 import CropperWindow from '@/components/CropperWindow';
 import Loader from '@/components/Loader';
+import heicConverter from '@/utils/heicConverter';
 
 const ProfilePage = () => {
   const [chosenPhoto, setChosenPhoto] = useState<string | null>(null);
@@ -37,11 +38,19 @@ const ProfilePage = () => {
   ];
 
   const selectPhotoHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files && evt.target.files[0]) {
-      const url = URL.createObjectURL(evt.target.files[0]);
+    if (evt.target.files) {
+      const file = evt.target.files[0];
+      let url;
 
-      setChosenPhoto(url);
-    }
+      if (file.name.endsWith('.heic')) {
+        heicConverter(file).then(result => {
+          setChosenPhoto(result);
+        });
+      } else {
+        url = URL.createObjectURL(file);
+        setChosenPhoto(url);
+      }
+    } else console.log(evt.target);
   };
 
   const name = tempName || user?.fullName;

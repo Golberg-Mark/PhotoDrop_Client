@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { uploadSelfieAction } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
 import useModalWindow from '@/hooks/useModalWindow';
+import heicConverter from '@/utils/heicConverter';
 
 interface Props {
   hide: HandleToggle,
@@ -48,11 +49,22 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
   }, [croppedAreaPixels]);
 
   const setNewImage = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files?.item(0)) {
-      const url = URL.createObjectURL(evt.target.files[0]);
+    if (evt.target.files) {
+      const file = evt.target.files[0];
+      let url;
 
-      setPath(url);
-    } else setPath(filePath);
+      if (file.name.endsWith('.heic')) {
+        heicConverter(file).then(result => {
+          setPath(result);
+        });
+      } else {
+        url = URL.createObjectURL(file);
+        setPath(url);
+      }
+    } else {
+      setPath(filePath);
+      console.log(evt.target);
+    }
   };
 
   return path ? (
