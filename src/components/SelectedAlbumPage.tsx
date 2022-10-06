@@ -13,10 +13,12 @@ import Button from '@/components/Button';
 import useToggle from '@/hooks/useToggle';
 import PurchasingWindow from '@/components/PurchasingWindow';
 import PhotoViewer from '@/components/PhotoViewer';
+import getThumbnail from '@/utils/getThumbnail';
+import { Photo } from '@/store/reducers/user';
 
 const SelectedAlbumPage = () => {
   const [isPurchasingVisible, toggleIsPurchasingVisible] = useToggle();
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const selectedAlbum = useSelector(selectSelectedAlbum);
@@ -62,7 +64,12 @@ const SelectedAlbumPage = () => {
       </AlbumHeader>
       <PhotoList>
         {selectedAlbum.photos.map((el, i) => (
-          <img key={i} src={el.url} alt="Your Photo" onClick={() => setSelectedPhoto(el.url)}/>
+          <img
+            key={i}
+            src={el[getThumbnail('photosList')]}
+            alt="Your Photo"
+            onClick={() => setSelectedPhoto(el)}
+          />
         ))}
       </PhotoList>
       {isUnlocked ? (

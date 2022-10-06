@@ -11,7 +11,8 @@ import Loader from '@/components/Loader';
 import Button from '@/components/Button';
 import AlbumsListItem from '@/components/Albums/AlbumsListItem';
 import PhotoViewer from '@/components/PhotoViewer';
-import { Photo } from '@/store/reducers/user';
+import { Album, Photo } from '@/store/reducers/user';
+import getThumbnail from '@/utils/getThumbnail';
 
 const AlbumsPage = () => {
   const [photosPage, setPhotosPage] = useState(1);
@@ -61,8 +62,8 @@ const AlbumsPage = () => {
           for (let i = 0; i < photosPage * 12; i++) {
             if (allPhotos[i]) photos.push(
               <img
-                key={allPhotos[i].url}
-                src={allPhotos[i].url}
+                key={allPhotos[i].albumId + i}
+                src={allPhotos[i][getThumbnail('photosList')]}
                 alt="Your Photo"
                 onClick={() => setSelectedPhoto(allPhotos[i])}
               />
@@ -79,7 +80,7 @@ const AlbumsPage = () => {
             <AlbumsList withMarginBottom>
               {albums.map((el, i) => (
                 <Link to={`/albums/${el.id}`} key={`${el.name + i}`}>
-                  <AlbumsListItem albumName={el.name} source={el.image} altText={el.name} />
+                  <AlbumsListItem albumName={el.name} source={el[getThumbnail('albumPreview') as keyof Album]} altText={el.name} />
                 </Link>
               ))}
             </AlbumsList>
@@ -108,7 +109,7 @@ const AlbumsPage = () => {
       {selectedPhoto ? (
         <PhotoViewer
           hide={() => setSelectedPhoto(null)}
-          photo={selectedPhoto.url}
+          photo={selectedPhoto}
           albumInfo={selectedPhoto.watermark ? {
             id: selectedPhoto.albumId,
             albumName: selectedPhoto.albumName,

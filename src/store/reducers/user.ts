@@ -20,11 +20,15 @@ export interface UpdateUser {
 }
 
 export interface Photo {
-  url: string,
-  watermark: boolean,
-  albumName: string,
-  albumId: string,
   id: string,
+  albumId: string,
+  albumName: string,
+  url150: string,
+  url300: string,
+  url600: string,
+  url1200: string,
+  originalUrl?: string,
+  watermark: boolean,
   countAlbumPhotos: number
 }
 
@@ -33,7 +37,8 @@ export interface Album {
   name: string,
   location: string,
   date: string,
-  image: string
+  url150: string,
+  url300: string
 }
 
 export interface SelectedAlbum {

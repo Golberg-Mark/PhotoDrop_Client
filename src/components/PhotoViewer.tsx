@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import CloseIcon from '@/icons/CloseIcon';
 import useToggle, { HandleToggle } from '@/hooks/useToggle';
 import PurchasingWindow from '@/components/PurchasingWindow';
 import DownloadIcon from '@/icons/DownloadIcon';
 import ShareIcon from '@/icons/ShareIcon';
 import useModalWindow from '@/hooks/useModalWindow';
+import { Photo } from '@/store/reducers/user';
+import getThumbnail from '@/utils/getThumbnail';
 
 interface Props {
   hide: HandleToggle,
-  photo: string,
+  photo: Photo,
   albumInfo?: {
     id: string,
     albumName: string,
@@ -25,10 +28,11 @@ const PhotoViewer: React.FC<Props> = ({ albumInfo, photo, hide }) => {
 
   useEffect(() => {
     const getPhoto = async () => {
-      return await fetch(photo).then(response => response.blob()).then(result => URL.createObjectURL(result));
+      return await fetch(photo.originalUrl!)
+        .then(response => response.blob()).then(result => URL.createObjectURL(result));
     }
 
-    getPhoto().then(result => setPhotoObject(result));
+    if (photo.originalUrl) getPhoto().then(result => setPhotoObject(result));
   }, []);
 
   const download = () => {
@@ -45,7 +49,7 @@ const PhotoViewer: React.FC<Props> = ({ albumInfo, photo, hide }) => {
   const share = () => {
     if (navigator.share) {
       navigator.share({
-        url: photo
+        url: photo.originalUrl
       });
     }
   };
@@ -53,7 +57,7 @@ const PhotoViewer: React.FC<Props> = ({ albumInfo, photo, hide }) => {
   return (
     <StyledPhotoViewer>
       <CloseIcon onClick={hide as unknown as React.MouseEventHandler<HTMLOrSVGElement>} />
-      <Image src={photo} alt="Your Photo" />
+      <Image src={photo[getThumbnail('photoViewer')]} alt="Your Photo" />
       <Buttons>
         {albumInfo ? (
           <Button onClick={toggleIsPurchasingVisible}>
@@ -71,7 +75,7 @@ const PhotoViewer: React.FC<Props> = ({ albumInfo, photo, hide }) => {
                 Share
               </IconWrapper>
             ) : ''}
-            <Button alternativeStyle onClick={() => window.open(photo)}>
+            <Button alternativeStyle onClick={() => window.open(photo.originalUrl)}>
               See in frame
             </Button>
           </>
