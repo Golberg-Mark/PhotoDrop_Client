@@ -39,7 +39,7 @@ const PhotoViewer: React.FC<Props> = ({ albumInfo, photo, hide }) => {
     if (photoObject) {
       const a = document.createElement('a');
       a.href = photoObject;
-      a.download = 'Photo';
+      a.download = 'Photo.jpg';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
