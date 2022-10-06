@@ -13,11 +13,13 @@ import ErrorModalWindow from '@/containers/ErrorModalWindow';
 import ProtectedRouter from '@/containers/ProtectedRouter';
 import Albums from '@/containers/Albums';
 import Auth from '@/containers/Auth';
-import Selfie from '@/containers/Selfie';
-import Profile from '@/containers/Profile';
 import Footer from '@/components/Footer';
-import PrivacyPage from '@/components/PrivacyPage';
-import TermsPage from '@/components/TermsPage';
+import Loader from '@/components/Loader';
+
+const Selfie = React.lazy(() => import('@/containers/Selfie'));
+const Profile = React.lazy(() => import('@/containers/Profile'));
+const PrivacyPage = React.lazy(() => import('@/components/PrivacyPage'));
+const TermsPage = React.lazy(() => import('@/components/TermsPage'));
 
 const GlobalStyle = createGlobalStyle`
   ${normalize};
@@ -95,10 +97,35 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/*" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
           <Route path="/auth/*" element={<Auth />} />
-          <Route path="/selfie" element={<ProtectedRouter><Selfie /></ProtectedRouter>} />
-          <Route path="/profile/*" element={<ProtectedRouter><Profile /></ProtectedRouter>} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/selfie" element={(
+            <React.Suspense fallback={<Loader />}>
+              <ProtectedRouter>
+                <Selfie />
+              </ProtectedRouter>
+            </React.Suspense>
+          )} />
+          <Route path="/profile/*" element={(
+            <React.Suspense fallback={<Loader />}>
+              <ProtectedRouter>
+                <Profile />
+              </ProtectedRouter>
+            </React.Suspense>
+          )} />
+          <Route path="/profile/*" element={(
+            <React.Suspense fallback={<Loader />}>
+              <Profile />
+            </React.Suspense>
+          )} />
+          <Route path="/privacy" element={(
+            <React.Suspense fallback={<Loader />}>
+              <PrivacyPage />
+            </React.Suspense>
+          )} />
+          <Route path="/terms" element={(
+            <React.Suspense fallback={<Loader />}>
+              <TermsPage />
+            </React.Suspense>
+          )} />
         </Routes>
         {errorMessage ? <ErrorModalWindow error={errorMessage} /> : ''}
       </GlobalContainer>
