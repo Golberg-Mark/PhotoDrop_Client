@@ -7,7 +7,7 @@ import CloseIcon from '@/icons/CloseIcon';
 import Radio from '@/components/Radio';
 import Button from '@/components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeWatermarkAction } from '@/store/actions/userActions';
+import { createCheckoutSessionAction } from '@/store/actions/userActions';
 import Loader from '@/components/Loader';
 import { selectErrorMessage } from '@/store/selectors/errorSelector';
 import useModalWindow from '@/hooks/useModalWindow';
@@ -35,7 +35,7 @@ const PurchasingWindow: React.FC<Props> = ({ hide, albumInfo, isNested = false }
   const submitPurchasing = () => {
     toggleIsLoading(true);
 
-    dispatch(removeWatermarkAction({
+    dispatch(createCheckoutSessionAction({
       albumId: albumInfo.id,
       albumName: albumInfo.albumName,
       callback: hide

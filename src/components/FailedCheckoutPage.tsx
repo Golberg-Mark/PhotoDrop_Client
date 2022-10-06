@@ -1,57 +1,42 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import styled from 'styled-components';
 
 import PageTitle from '@/components/PageTitle';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const ThanksPage = () => {
+const FailedCheckoutPage = () => {
   const { albumName } = useParams();
 
   return (
-    <StyledThanksPage>
+    <StyledPage>
       <PageTitle marginBottom={20}>
-        Thank you!
+        Failed payment
       </PageTitle>
-      <UnlockedAlbum>
+      <Info>
         The album
         <span>{` ${albumName} `}</span>
-        is now unlocked.
-      </UnlockedAlbum>
-      <Possibilities>
-        You can now download, share, post, and print your hi-res, watermark-free, glorious memories.
-      </Possibilities>
-      <img src={'/assets/Thanks.png'} alt="Thank you image"/>
+        isn't unlocked.
+      </Info>
       <StyledLink to="/" replace>
         See photos
       </StyledLink>
-    </StyledThanksPage>
+    </StyledPage>
   );
 };
 
-const StyledThanksPage = styled.div`
+const StyledPage = styled.div`
   margin: 0 auto;
   padding: 20px 0;
   max-width: 375px;
-  
-  img {
-    display: block;
-    margin-bottom: 30px;
-    height: 200px;
-    border-radius: 20px;
-  }
 `;
 
-const UnlockedAlbum = styled.p`
+const Info = styled.p`
   margin-bottom: 20px;
   
   span {
     font-weight: 700;
   }
-`;
-
-const Possibilities = styled.p`
-  margin-bottom: 30px;
 `;
 
 const StyledLink = styled(Link)`
@@ -71,4 +56,4 @@ const StyledLink = styled(Link)`
   transition: .2s;
 `;
 
-export default ThanksPage;
+export default FailedCheckoutPage;

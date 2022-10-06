@@ -24,5 +24,12 @@ export class MainApiProtected extends HttpClientProtected {
 
   public getAlbum = (albumName: string) => this.instance.get<SelectedAlbum>(`/albums/${albumName}`);
 
-  public removeWatermark = (item: string) => this.instance.delete<{ message: string }>(`/removeWatermark/${item}`);
+  public checkoutSession = (albumID: string, albumName: string) => this.instance.post<string>(`/createCheckoutSession/${albumID}`, {
+    successUrl: `${process.env.NODE_ENV === 'production'
+      ? `https://photo-drop-client-one.vercel.app/purchase/${albumName}`
+      : `http://127.0.0.1:3000/purchase/${albumName}`}`,
+    cancelUrl: `${process.env.NODE_ENV === 'production'
+      ? `https://photo-drop-client-one.vercel.app/purchase-failed/${albumName}`
+      : `http://127.0.0.1:3000/purchase-failed/${albumName}`}`
+  });
 }

@@ -182,17 +182,18 @@ interface IRemoveWatermark {
   callback: HandleToggle
 }
 
-export const removeWatermarkAction = ({ albumId, albumName, photoName }: IRemoveWatermark): AsyncAction => async (
+export const createCheckoutSessionAction = ({ albumId, albumName, photoName }: IRemoveWatermark): AsyncAction => async (
   dispatch,
   _,
   { mainApiProtected }
 ) => {
   try {
-    const { message } = await mainApiProtected.removeWatermark(photoName || albumId);
+    const url = await mainApiProtected.checkoutSession(
+      photoName || albumId,
+      albumName.replaceAll(' ', '%20')
+    );
 
-    if (message) {
-      dispatch(push('/albums/thanks', { albumName }));
-    }
+    window.location.replace(url);
   } catch (error: any) {
     console.log(error);
     if (error.code === 400) dispatch(errorActions.setErrorMessage(error.message));

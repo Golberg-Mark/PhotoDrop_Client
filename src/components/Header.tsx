@@ -13,7 +13,7 @@ enum PathNames {
   AUTH = '/auth/verify',
   AUTH2 = '/selfie',
   MAIN_PAGE = '/',
-  THANKS_PAGE = '/albums/thanks'
+  THANKS_PAGE = '/purchase/thanks'
 }
 
 const Header = () => {
