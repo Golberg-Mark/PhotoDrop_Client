@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled, { createGlobalStyle } from 'styled-components';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { normalize } from 'styled-normalize';
 
 import Header from '@/components/Header';
@@ -15,6 +15,7 @@ import Albums from '@/containers/Albums';
 import Auth from '@/containers/Auth';
 import Footer from '@/components/Footer';
 import Loader from '@/components/Loader';
+import { selectIsLoggedIn, selectUser } from '@/store/selectors/userSelector';
 
 const Selfie = React.lazy(() => import('@/containers/Selfie'));
 const Profile = React.lazy(() => import('@/containers/Profile'));
@@ -87,6 +88,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App: React.FC = () => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
   const errorMessage = useSelector(selectErrorMessage);
 
   return (
@@ -96,7 +99,7 @@ const App: React.FC = () => {
         <GlobalStyle />
         <Routes>
           <Route path="/*" element={<ProtectedRouter><Albums /></ProtectedRouter>} />
-          <Route path="/auth/*" element={<Auth />} />
+          <Route path="/auth/*" element={!user && !isLoggedIn ? <Auth /> : <Navigate to="/" />} />
           <Route path="/selfie" element={(
             <React.Suspense fallback={<Loader />}>
               <ProtectedRouter>
