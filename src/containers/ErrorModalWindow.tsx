@@ -18,7 +18,7 @@ const ErrorModalWindow: React.FC<Props> = ({ error }) => {
   };
 
   return (
-    <Background onClick={hideModalWindow}>
+    <Background onClick={hideModalWindow} zIndex={100000}>
       <ModalWindow onClick={(evt) => evt.stopPropagation()}>
         <p>{error}</p>
         <Button onClick={hideModalWindow}>

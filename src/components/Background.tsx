@@ -3,18 +3,19 @@ import styled from 'styled-components';
 import { HandleToggle } from '@/hooks/useToggle';
 
 interface Props extends HTMLAttributes<HTMLDivElement>{
-  onClick: HandleToggle
+  onClick: HandleToggle,
+  zIndex?: number
 }
 
-const Background: React.FC<Props> = ({ onClick, children }) => {
+const Background: React.FC<Props> = ({ onClick, zIndex = 1000, children }) => {
   return (
-    <StyledBackground onClick={onClick}>
+    <StyledBackground onClick={onClick} zIndex={zIndex}>
       {children}
     </StyledBackground>
   );
 };
 
-const StyledBackground = styled.div`
+const StyledBackground = styled.div<{ zIndex: number }>`
   position: fixed;
   top: 0;
   right: 0;
@@ -25,7 +26,7 @@ const StyledBackground = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, .4);
   cursor: pointer;
-  z-index: 1000;
+  z-index: ${({ zIndex }) => zIndex};
 `;
 
 export default Background;
