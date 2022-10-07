@@ -1,6 +1,6 @@
 import { createActionCreators } from 'immer-reducer';
 import axios from 'axios';
-import { push } from '@lagunovsky/redux-react-router';
+import { back, push } from '@lagunovsky/redux-react-router';
 import { Buffer } from 'buffer';
 
 import { UpdateUser, UserReducer } from '@/store/reducers/user';
@@ -123,7 +123,7 @@ export const uploadSelfieAction = (file: string, callback?: HandleToggle): Async
   }
 };
 
-export const updateClientAction = (body: UpdateUser, navigateTo: string): AsyncAction => async (
+export const updateClientAction = (body: UpdateUser): AsyncAction => async (
   dispatch,
   _,
   { mainApiProtected }
@@ -136,7 +136,7 @@ export const updateClientAction = (body: UpdateUser, navigateTo: string): AsyncA
         ? dispatch(userActions.setTempUserName(body.fullName))
         : dispatch(userActions.setTempUserEmail(body.email!));
 
-      dispatch(push(navigateTo));
+      dispatch(back());
     }
   } catch (error: any) {
     console.log(error);
