@@ -68,7 +68,7 @@ const Shadow = styled.div`
   bottom: 0;
   width: 100%;
   height: 133px;
-  border-radius: 20px;
+  border-radius: 0 0 20px 20px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 44.34%, rgba(0, 0, 0, 0) 100%);
 
   @media (max-width: 768px) {
