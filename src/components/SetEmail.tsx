@@ -36,7 +36,7 @@ const SetEmail: React.FC<Props> = ({ isChanging, userEmail = '', userName }) => 
   const saveEmail = () => {
     if (isValid) {
       toggleIsLoading(true);
-      dispatch(updateClientAction({ email }, '/profile'));
+      dispatch(updateClientAction({ email }));
     }
   };
 

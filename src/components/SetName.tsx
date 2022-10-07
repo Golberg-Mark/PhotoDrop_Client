@@ -35,7 +35,7 @@ const SetName: React.FC<Props> = ({ isChanging = false, userName = '' }) => {
   const saveName = () => {
     if (isValid) {
       toggleIsLoading(true);
-      dispatch(updateClientAction({ fullName }, '/profile'));
+      dispatch(updateClientAction({ fullName }));
     }
   };
 
