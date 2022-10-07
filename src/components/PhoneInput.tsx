@@ -145,12 +145,15 @@ const CountrySelector = styled.button`
 
 const CodesModalWindow = styled.div`
   display: block;
-  max-width: 375px;
   width: 100%;
   height: 100%;
   background-color: #fff;
   overflow-y: hidden;
   overflow-x: hidden;
+  
+  @media (min-width: 480px) {
+    max-width: 375px;
+  }
 `;
 
 const CountryList = styled.div`
