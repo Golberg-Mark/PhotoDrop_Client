@@ -49,7 +49,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
   }, [croppedAreaPixels]);
 
   const setNewImage = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files) {
+    if (evt.target.files && new RegExp(/^image\/.*$/).test(evt.target.files[0].type)) {
       const file = evt.target.files[0];
       let url;
 
@@ -102,7 +102,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
       <Buttons>
         <Retake>
           Retake
-          <input type="file" multiple={false} onChange={setNewImage} />
+          <input type="file" multiple={false} accept="image/*" onChange={setNewImage} />
         </Retake>
         <Save onClick={createCroppedImage}>
           {isLoading ? <Loader /> : 'Save'}

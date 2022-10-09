@@ -11,7 +11,7 @@ const Selfie = () => {
   const [isCropperVisible, toggleIsCropperVisible] = useToggle();
 
   const inputFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files) {
+    if (evt.target.files && new RegExp(/^image\/.*$/).test(evt.target.files[0].type)) {
       const file = evt.target.files[0];
       let url;
 
@@ -40,7 +40,7 @@ const Selfie = () => {
       <PageTitle>Add a selfie</PageTitle>
       <Description>A selfie allows your photos to be synced with your account.</Description>
       <ImageContainer onClick={isCropperVisible ? stop : undefined} isDisabled={isCropperVisible}>
-        <input type="file" onChange={inputFile} multiple={false} />
+        <input type="file" accept="image/*" onChange={inputFile} multiple={false} />
         <img src={'/assets/selfie.png'} alt="Selfie icon"/>
       </ImageContainer>
       {isCropperVisible ? (

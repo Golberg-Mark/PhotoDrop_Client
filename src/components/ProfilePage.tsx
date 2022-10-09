@@ -38,7 +38,7 @@ const ProfilePage = () => {
   ];
 
   const selectPhotoHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files) {
+    if (evt.target.files && new RegExp(/^image\/.*$/).test(evt.target.files[0].type)) {
       const file = evt.target.files[0];
       let url;
 
@@ -62,7 +62,7 @@ const ProfilePage = () => {
       </PageTitle>
       <Description>Your selfie</Description>
       <PhotoLabel url={tempPhoto || user.selfie!}>
-        <input type="file" multiple={false} onChange={selectPhotoHandler}/>
+        <input type="file" multiple={false} accept="image/*" onChange={selectPhotoHandler}/>
         <EditIcon />
       </PhotoLabel>
       <Settings>
