@@ -40,7 +40,7 @@ const Selfie = () => {
       <PageTitle>Add a selfie</PageTitle>
       <Description>A selfie allows your photos to be synced with your account.</Description>
       <ImageContainer onClick={isCropperVisible ? stop : undefined} isDisabled={isCropperVisible}>
-        <input type="file" accept="image/*" onChange={inputFile} multiple={false} />
+        <input type="file" accept="image/*,.heic,.heif" onChange={inputFile} multiple={false} />
         <img src={'/assets/selfie.png'} alt="Selfie icon"/>
       </ImageContainer>
       {isCropperVisible ? (

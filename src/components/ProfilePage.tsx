@@ -62,7 +62,7 @@ const ProfilePage = () => {
       </PageTitle>
       <Description>Your selfie</Description>
       <PhotoLabel url={tempPhoto || user.selfie!}>
-        <input type="file" multiple={false} accept="image/*" onChange={selectPhotoHandler}/>
+        <input type="file" multiple={false} accept="image/*,.heic,.heif" onChange={selectPhotoHandler}/>
         <EditIcon />
       </PhotoLabel>
       <Settings>

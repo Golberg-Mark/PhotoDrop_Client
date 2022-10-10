@@ -102,7 +102,7 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
       <Buttons>
         <Retake>
           Retake
-          <input type="file" multiple={false} accept="image/*" onChange={setNewImage} />
+          <input type="file" multiple={false} accept="image/*,.heic,.heif" onChange={setNewImage} />
         </Retake>
         <Save onClick={createCroppedImage}>
           {isLoading ? <Loader /> : 'Save'}
