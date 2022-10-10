@@ -49,17 +49,21 @@ const CropperWindow: React.FC<Props> = ({ filePath, hide, withoutRouting = false
   }, [croppedAreaPixels]);
 
   const setNewImage = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files && new RegExp(/^image\/.*$/).test(evt.target.files[0].type)) {
+    if (evt.target.files) {
       const file = evt.target.files[0];
+      const splitName = file.name.split('.');
+      const type = file.type || `image/${splitName[splitName.length - 1]}`;
       let url;
 
-      if (file.name.endsWith('.heic')) {
-        heicConverter(file).then(result => {
-          setPath(result);
-        });
-      } else {
-        url = URL.createObjectURL(file);
-        setPath(url);
+      if (new RegExp(/^image\/.*$/).test(type)) {
+        if (file.name.endsWith('.heic')) {
+          heicConverter(file).then(result => {
+            setPath(result);
+          });
+        } else {
+          url = URL.createObjectURL(file);
+          setPath(url);
+        }
       }
     } else {
       setPath(filePath);
