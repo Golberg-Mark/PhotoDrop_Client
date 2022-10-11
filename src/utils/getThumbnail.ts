@@ -1,5 +1,5 @@
 type IsFor = 'photosList' | 'albumPreview' | 'photoViewer';
-type returnType = 'url150' | 'url300' | 'url600' | 'url1200';
+type returnType = 'url300' | 'url600' | 'url1200';
 
 const getThumbnail = (isFor: IsFor): returnType => {
   const ws = window.innerWidth;
